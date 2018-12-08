@@ -1,4 +1,4 @@
-const Ad = require("../models/Ad");
+const Cliente = require("../models/Cliente");
 const User = require("../models/User");
 const PurchaseMail = require("../jobs/PurchaseMail");
 // const Queue = require("../services/Queue");
@@ -7,7 +7,7 @@ class PurchaseController {
     async store(req, res) {
         const { ad, content } = req.body;
 
-        const purchaseAd = await Ad.findById(ad).populate("author");
+        const purchaseAd = await Cliente.findById(ad).populate("author");
         const user = await User.findById(req.userId);
 
         // Queue.create(PurchaseMail.key, {

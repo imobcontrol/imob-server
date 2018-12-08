@@ -21,19 +21,19 @@ routes.use(authMiddleware);
 /**
  * Ad
  */
-routes.get("/ads", handle(controllers.AdController.index));
-routes.get("/ads/:id", handle(controllers.AdController.show));
+routes.get("/clientes", handle(controllers.ClienteController.index));
+routes.get("/clientes/:id", handle(controllers.ClienteController.show));
 routes.post(
-    "/ads",
-    validate(validators.Ad),
-    handle(controllers.AdController.store)
+    "/clientes",
+    validate(validators.Cliente),
+    handle(controllers.ClienteController.store)
 );
 routes.put(
-    "/ads/:id",
-    validate(validators.Ad),
-    handle(controllers.AdController.update)
+    "/clientes/:id",
+    validate(validators.Cliente),
+    handle(controllers.ClienteController.update)
 );
-routes.delete("/ads/:id", handle(controllers.AdController.destroy));
+routes.delete("/clientes/:id", handle(controllers.ClienteController.destroy));
 
 /**
  * Purchase

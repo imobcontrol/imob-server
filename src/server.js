@@ -1,5 +1,6 @@
 require("dotenv").config();
 const express = require("express");
+const cors = require("cors");
 const mongoose = require("mongoose");
 const Youch = require("youch");
 const validate = require("express-validation");
@@ -25,6 +26,7 @@ class App {
     }
 
     middlewares() {
+        this.express.use(cors());
         this.express.use(express.json());
         // this.express.use(Sentry.Handlers.errorHandler());
     }

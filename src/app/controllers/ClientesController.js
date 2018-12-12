@@ -1,6 +1,6 @@
-const Cliente = require("../models/Cliente");
+const Clientes = require("../models/Clientes");
 
-class ClienteController {
+class ClientesController {
     async index(req, res) {
         const filters = {};
 
@@ -22,7 +22,7 @@ class ClienteController {
             filters.nome = new RegExp(nome, "i");
         }
 
-        const clientes = await Cliente.paginate(filters, {
+        const clientes = await Clientes.paginate(filters, {
             limit: 20,
             page: req.query.page || 1,
             sort: "-createdAt"
@@ -32,13 +32,12 @@ class ClienteController {
     }
 
     async show(req, res) {
-        const clientes = await Cliente.findById(req.params.id);
-
+        const clientes = await Clientes.findById(req.params.id);
         return res.json(clientes);
     }
 
     async store(req, res) {
-        const cliente = await Cliente.create({
+        const cliente = await Clientes.create({
             ...req.body
         });
 
@@ -46,7 +45,7 @@ class ClienteController {
     }
 
     async update(req, res) {
-        const cliente = await Cliente.findByIdAndUpdate(
+        const cliente = await Clientes.findByIdAndUpdate(
             req.params.id,
             req.body,
             {
@@ -58,9 +57,9 @@ class ClienteController {
     }
 
     async destroy(req, res) {
-        const cliente = await Cliente.findByIdAndDelete(req.params.id);
+        const cliente = await Clientes.findByIdAndDelete(req.params.id);
         return res.send(cliente);
     }
 }
 
-module.exports = new ClienteController();
+module.exports = new ClientesController();

@@ -19,29 +19,73 @@ routes.post(
 
 routes.use(authMiddleware);
 /**
- * Ad
+ * Clientes
  */
-routes.get("/clientes", handle(controllers.ClienteController.index));
-routes.get("/clientes/:id", handle(controllers.ClienteController.show));
+routes.get("/clientes", handle(controllers.ClientesController.index));
+routes.get("/clientes/:id", handle(controllers.ClientesController.show));
 routes.post(
     "/clientes",
-    validate(validators.Cliente),
-    handle(controllers.ClienteController.store)
+    validate(validators.Clientes),
+    handle(controllers.ClientesController.store)
 );
 routes.put(
     "/clientes/:id",
-    validate(validators.Cliente),
-    handle(controllers.ClienteController.update)
+    validate(validators.Clientes),
+    handle(controllers.ClientesController.update)
 );
-routes.delete("/clientes/:id", handle(controllers.ClienteController.destroy));
+routes.delete("/clientes/:id", handle(controllers.ClientesController.destroy));
 
 /**
- * Purchase
+ * Imoveis
  */
+routes.get("/imoveis/list/:id", handle(controllers.ImoveisController.index));
+routes.get("/imoveis/:id", handle(controllers.ImoveisController.show));
 routes.post(
-    "/purchase",
-    validate(validators.Purchase),
-    handle(controllers.PurchaseController.store)
+    "/imoveis",
+    validate(validators.Imoveis),
+    handle(controllers.ImoveisController.store)
+);
+routes.put(
+    "/imoveis/:id",
+    validate(validators.Imoveis),
+    handle(controllers.ImoveisController.update)
+);
+routes.delete("/imoveis/:id", handle(controllers.ImoveisController.destroy));
+
+/**
+ * Comentarios
+ */
+routes.get("/comentarios/:id", handle(controllers.ComentariosController.index));
+routes.get("/comentarios/:id", handle(controllers.ComentariosController.show));
+routes.post(
+    "/comentario",
+    validate(validators.Comentarios),
+    handle(controllers.ComentariosController.store)
+);
+routes.put(
+    "/comentario/:id",
+    validate(validators.Comentarios),
+    handle(controllers.ComentariosController.update)
+);
+routes.delete(
+    "/comentario/:id",
+    handle(controllers.ComentariosController.destroy)
 );
 
+/**
+ * Alugueis
+ */
+routes.get("/alugueis", handle(controllers.AlugueisController.index));
+routes.get("/alugueis/:id", handle(controllers.AlugueisController.show));
+routes.post(
+    "/aluguel",
+    validate(validators.Alugueis),
+    handle(controllers.AlugueisController.store)
+);
+routes.put(
+    "/aluguel/:id",
+    validate(validators.Alugueis),
+    handle(controllers.AlugueisController.update)
+);
+routes.delete("/aluguel/:id", handle(controllers.AlugueisController.destroy));
 module.exports = routes;

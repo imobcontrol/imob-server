@@ -39,6 +39,7 @@ routes.delete("/clientes/:id", handle(controllers.ClientesController.destroy));
  * Imoveis
  */
 routes.get("/imoveis/list/:id", handle(controllers.ImoveisController.index));
+routes.get("/imoveis/list", handle(controllers.ImoveisController.list));
 routes.get("/imoveis/:id", handle(controllers.ImoveisController.show));
 routes.post(
     "/imoveis",
@@ -88,4 +89,5 @@ routes.put(
     handle(controllers.AlugueisController.update)
 );
 routes.delete("/aluguel/:id", handle(controllers.AlugueisController.destroy));
+
 module.exports = routes;

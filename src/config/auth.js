@@ -1,4 +1,4 @@
 module.exports = {
     secret: "MySecret",
-    ttl: 86400
+    ttl: 999999999999
 };

@@ -22,35 +22,31 @@ class AlugueisController {
             filters.nome = new RegExp(nome, "i");
         }
 
-        const alugueis = await Alugueis.paginate(filters, {
+        const aluguel = await Alugueis.paginate(filters, {
             limit: 20,
             page: req.query.page || 1,
+            populate: ["imovel", "locatario", "locador"],
             sort: "-createdAt"
         });
 
-        return res.json(alugueis);
+        return res.json(aluguel);
     }
 
     async show(req, res) {
-        const alugueis = await Alugueis.findById(req.params.id);
-        return res.json(alugueis);
+        const aluguel = await Alugueis.findById(req.params.id);
+        return res.json(aluguel);
     }
 
     async store(req, res) {
-        const aluguel = await Alugueis.create({
-            ...req.body
-        });
-
+        const aluguel = await Alugueis.create({ ...req.body });
         return res.json(aluguel);
     }
 
     async update(req, res) {
         const aluguel = await Alugueis.findByIdAndUpdate(
             req.params.id,
-            req.body,
-            {
-                new: true
-            }
+            { aluguel: req.body },
+            { new: true }
         );
 
         return res.json(aluguel);

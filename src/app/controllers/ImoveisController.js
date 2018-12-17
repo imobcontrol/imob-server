@@ -6,7 +6,7 @@ class ImoveisController {
     async index(req, res) {
         const filters = {};
 
-        const { nome, price_min, price_max } = req.query;
+        const { nome, aluguel, price_min, price_max } = req.query;
 
         if (price_min || price_max) {
             filters.price = {};
@@ -24,6 +24,10 @@ class ImoveisController {
             filters.nome = new RegExp(nome, "i");
         }
 
+        if (aluguel) {
+            filters.aluguel = { $exists: aluguel };
+        }
+
         // Filter clientId
         filters.cliente = mongoose.Types.ObjectId(req.params.id);
         const imoveis = await Imoveis.paginate(filters, {
@@ -35,8 +39,45 @@ class ImoveisController {
         return res.json(imoveis);
     }
 
+    async list(req, res) {
+        const filters = {};
+
+        const { nome, aluguel, price_min, price_max } = req.query;
+
+        if (price_min || price_max) {
+            filters.price = {};
+
+            if (price_min) {
+                filters.price.$gte = price_min;
+            }
+
+            if (price_max) {
+                filters.price.$lte = price_max;
+            }
+        }
+
+        if (nome) {
+            filters.nome = new RegExp(nome, "i");
+        }
+
+        if (aluguel) {
+            filters.aluguel = { $exists: aluguel };
+        }
+
+        const imoveis = await Imoveis.paginate(filters, {
+            limit: 20,
+            page: req.query.page || 1,
+            sort: "-createdAt"
+        });
+
+        return res.json(imoveis);
+    }
+
     async show(req, res) {
-        const imoveis = await Imoveis.findById(req.params.id);
+        const imoveis = await Imoveis.findById(req.params.id).populate([
+            "aluguel",
+            "cliente"
+        ]);
         return res.json(imoveis);
     }
 

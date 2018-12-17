@@ -4,6 +4,7 @@ const mongoosePaginate = require("mongoose-paginate");
 const Imoveis = new mongoose.Schema({
     cliente: {
         type: mongoose.Schema.Types.ObjectId,
+        ref: "Clientes",
         required: true
     },
     nome: {
@@ -21,6 +22,10 @@ const Imoveis = new mongoose.Schema({
     },
     observacoes: {
         type: String
+    },
+    aluguel: {
+        type: String,
+        ref: "Alugueis"
     },
     createdAt: {
         type: Date,

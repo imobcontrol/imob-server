@@ -29,7 +29,7 @@ class ImoveisController {
         }
 
         // Filter clientId
-        filters.cliente = mongoose.Types.ObjectId(req.params.id);
+        filters.proprietario = mongoose.Types.ObjectId(req.params.id);
         const imoveis = await Imoveis.paginate(filters, {
             limit: 20,
             page: req.query.page || 1,
@@ -76,7 +76,7 @@ class ImoveisController {
     async show(req, res) {
         const imoveis = await Imoveis.findById(req.params.id).populate([
             "aluguel",
-            "cliente"
+            "proprietario"
         ]);
         return res.json(imoveis);
     }

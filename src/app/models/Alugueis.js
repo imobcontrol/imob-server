@@ -19,24 +19,19 @@ const Alugueis = new mongoose.Schema(
             ref: "Imoveis",
             required: true
         },
-        valor: {
+        valorLocacao: {
             type: String,
             require: true
         },
-        desconto: {
-            type: String,
-            require: true
+        taxaAdministracao: {
+            type: Number
         },
-        vencimento: {
-            type: Date,
-            default: Date.now,
-            require: true
+        taxaLocacao: {
+            type: Number
         },
-        comentarios: [
-            {
-                type: String
-            }
-        ]
+        diaVencimento: {
+            type: Number
+        }
     },
     {
         timestamps: true

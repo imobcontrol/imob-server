@@ -2,6 +2,54 @@ const mongoose = require("mongoose");
 const mongoosePaginate = require("mongoose-paginate");
 const Imoveis = require("../models/Imoveis");
 
+const Parcelas = new mongoose.Schema(
+    {
+        valor: {
+            type: Number,
+            default: 0
+        },
+        desconto: {
+            type: Number,
+            default: 0
+        },
+        recibo: {
+            type: Boolean,
+            default: false
+        },
+        pago: {
+            type: Boolean,
+            default: false
+        },
+        dataVencimento: {
+            type: Date,
+            default: Date.now
+        },
+        observacao: {
+            type: String,
+            default: ""
+        }
+    },
+    {
+        timestamps: true
+    }
+);
+
+Parcelas.path("valor").get(function(num) {
+    return (num / 100).toFixed(2);
+});
+
+Parcelas.path("valor").set(function(num) {
+    return num * 100;
+});
+
+Parcelas.path("desconto").get(function(num) {
+    return (num / 100).toFixed(2);
+});
+
+Parcelas.path("desconto").set(function(num) {
+    return num * 100;
+});
+
 const Alugueis = new mongoose.Schema(
     {
         locatario: {
@@ -20,7 +68,7 @@ const Alugueis = new mongoose.Schema(
             required: true
         },
         valorLocacao: {
-            type: String,
+            type: Number,
             require: true
         },
         taxaAdministracao: {
@@ -31,12 +79,27 @@ const Alugueis = new mongoose.Schema(
         },
         diaVencimento: {
             type: Number
+        },
+        parcelas: [Parcelas],
+        ativo: {
+            type: Boolean,
+            default: false
         }
     },
     {
         timestamps: true
     }
 );
+
+// Getter
+Alugueis.path("valorLocacao").get(function(num) {
+    return (num / 100).toFixed(2);
+});
+
+// Setter
+Alugueis.path("valorLocacao").set(function(num) {
+    return num * 100;
+});
 
 Alugueis.post("validate", async function(doc) {
     const imovel = await Imoveis.findById(doc.imovel);

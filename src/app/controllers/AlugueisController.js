@@ -1,3 +1,4 @@
+const moment = require("moment");
 const Alugueis = require("../models/Alugueis");
 
 class AlugueisController {
@@ -33,11 +34,39 @@ class AlugueisController {
     }
 
     async show(req, res) {
-        const aluguel = await Alugueis.findById(req.params.id);
+        const aluguel = await Alugueis.findById(req.params.id).populate([
+            "locatario"
+        ]);
+        return res.json(aluguel);
+    }
+
+    async imovel(req, res) {
+        const aluguel = await Alugueis.find({ imovel: req.params.id });
         return res.json(aluguel);
     }
 
     async store(req, res) {
+        const { startDate, endDate } = req.body;
+
+        //pega a quantidade de parcelas de definido pelas datas.
+        const qtdParcelas = moment(endDate).diff(startDate, "months", true);
+
+        //cria array com a quantidade de parcelas definidas
+        const parcelas = [];
+        for (var i = 0; i < qtdParcelas; i++) {
+            parcelas.push({
+                dataVencimento: moment(startDate)
+                    .month(i)
+                    .format()
+            });
+        }
+
+        delete req.body.startDate;
+        delete req.body.endDate;
+
+        req.body.parcelas = parcelas;
+        req.body.ativo = true;
+
         const aluguel = await Alugueis.create({ ...req.body });
         return res.json(aluguel);
     }

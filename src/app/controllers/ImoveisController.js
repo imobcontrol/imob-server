@@ -75,10 +75,18 @@ class ImoveisController {
 
     async show(req, res) {
         const imoveis = await Imoveis.findById(req.params.id).populate([
-            "aluguel",
-            "proprietario"
+            {
+                path: "proprietario"
+            },
+            {
+                path: "aluguel",
+                populate: { path: "locatario" }
+            }
         ]);
-        return res.json(imoveis);
+
+        setTimeout(() => {
+            return res.json(imoveis);
+        }, 1000);
     }
 
     async store(req, res) {

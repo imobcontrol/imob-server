@@ -37,12 +37,11 @@ class AlugueisController {
         const aluguel = await Alugueis.findById(req.params.id).populate([
             "locatario"
         ]);
-        return res.json(aluguel);
-    }
 
-    async imovel(req, res) {
-        const aluguel = await Alugueis.find({ imovel: req.params.id });
-        return res.json(aluguel);
+        //TODO: Remover em produção
+        setTimeout(() => {
+            return res.json(aluguel);
+        }, 2000);
     }
 
     async store(req, res) {

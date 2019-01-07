@@ -1,5 +1,6 @@
 const moment = require("moment");
 const Alugueis = require("../models/Alugueis");
+const Pdf = require("../services/Pdf");
 
 class AlugueisController {
     async index(req, res) {
@@ -78,6 +79,12 @@ class AlugueisController {
         );
 
         return res.json(aluguel);
+    }
+
+    async recibo(req, res) {
+        const context = { name: "Ritesh Kumar" };
+        const template = "aluguel/email.hbs";
+        Pdf.create(res, context, template);
     }
 
     async destroy(req, res) {

@@ -83,7 +83,10 @@ routes.post(
     handle(controllers.AlugueisController.store)
 );
 
-routes.get("/aluguel/recibo", handle(controllers.AlugueisController.recibo));
+routes.get(
+    "/aluguel/recibo/:id_aluguel/:id_parcela",
+    handle(controllers.AlugueisController.recibo)
+);
 routes.get("/aluguel/:id", handle(controllers.AlugueisController.show));
 
 routes.put(

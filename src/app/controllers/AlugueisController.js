@@ -1,3 +1,4 @@
+const mongoose = require("mongoose");
 const moment = require("moment");
 const Alugueis = require("../models/Alugueis");
 const Pdf = require("../services/Pdf");
@@ -82,9 +83,21 @@ class AlugueisController {
     }
 
     async recibo(req, res) {
-        const context = { name: "Ritesh Kumar" };
-        const template = "aluguel/email.hbs";
-        Pdf.create(res, context, template);
+        const aluguel = await Alugueis.findOne({
+            _id: req.params.id_aluguel
+        });
+
+        const parcela = aluguel.parcelas.find(
+            parcela => `${parcela._id}` === req.params.id_parcela
+        );
+
+        // UPDATE recibo to True
+        if (parcela.pago) {
+            const context = { parcela, aluguel };
+            const template = "aluguel/recibo.hbs";
+
+            Pdf.create(res, context, template);
+        }
     }
 
     async destroy(req, res) {

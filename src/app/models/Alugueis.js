@@ -20,7 +20,11 @@ const Parcelas = new mongoose.Schema(
             type: Boolean,
             default: false
         },
-        dataVencimento: {
+        dataInicial: {
+            type: Date,
+            default: Date.now
+        },
+        dataFinal: {
             type: Date,
             default: Date.now
         },

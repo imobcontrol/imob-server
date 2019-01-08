@@ -1,4 +1,3 @@
-const mongoose = require("mongoose");
 const moment = require("moment");
 const Alugueis = require("../models/Alugueis");
 const Pdf = require("../services/Pdf");
@@ -56,8 +55,11 @@ class AlugueisController {
         const parcelas = [];
         for (var i = 0; i < qtdParcelas; i++) {
             parcelas.push({
-                dataVencimento: moment(startDate)
-                    .month(i)
+                dataInicial: moment(startDate)
+                    .add(i, "M")
+                    .format(),
+                dataFinal: moment(startDate)
+                    .add(i + 1, "M")
                     .format()
             });
         }
@@ -85,7 +87,7 @@ class AlugueisController {
     async recibo(req, res) {
         const aluguel = await Alugueis.findOne({
             _id: req.params.id_aluguel
-        });
+        }).populate(["locatario", "imovel", "locador"]);
 
         const parcela = aluguel.parcelas.find(
             parcela => `${parcela._id}` === req.params.id_parcela
@@ -93,10 +95,12 @@ class AlugueisController {
 
         // UPDATE recibo to True
         if (parcela.pago) {
-            const context = { parcela, aluguel };
-            const template = "aluguel/recibo.hbs";
-
-            Pdf.create(res, context, template);
+            const context = {
+                parcela,
+                aluguel,
+                total: parcela.valor - parcela.desconto
+            };
+            Pdf.create(res, context, "aluguel/recibo.hbs");
         }
     }
 

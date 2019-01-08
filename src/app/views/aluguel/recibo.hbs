@@ -27,15 +27,15 @@
 
         .header {
             font-weight: bolder;
-            min-height: 45px;
-            padding: 20px;
+            padding: 10px;
             text-align: center;
+            min-height: 45px;
             border-bottom: 1px solid #ccc;
         }
 
         .header .logo {
             width: 20%;
-            margin-top: -15px;
+            margin-top: 0px;
             float: left;
         }
 
@@ -46,7 +46,7 @@
         }
 
         .header .titulo .endereco {
-            margin-top: 10px;
+            margin-top: 5px;
             text-align: center;
             text-transform: none;
         }
@@ -86,13 +86,13 @@
 
         .recibo .dados-clientes .box {
             border-bottom: 1px solid #cccccc;
-            min-height: 40px;
             margin-bottom: 10px;
             padding-bottom: 5px;
         }
 
         .recibo .dados-clientes .box.last {
             border: none !important;
+            margin-bottom: 0;
         }
 
 
@@ -192,6 +192,9 @@
 </head>
 
 <body>
+
+    {{#repeat 2}}
+
     <div class="container">
         <div class="header">
             <div class="logo">
@@ -202,7 +205,7 @@
 
                 <div class="endereco">
                     QUADRA 06 AR 02 LOJA 13 - EDIFÍCIO LE PREMIER - SOBRADINHO - DF
-                    <div class="fz12" style="margin-top: 10px;"> www.lcimoveis.com.br / lcimoveis@lcimoveis.com.br</div>
+                    <div class="fz12" style="margin-top: 5px;"> www.lcimoveis.com.br / lcimoveis@lcimoveis.com.br</div>
                 </div>
             </div>
             <div class="creci">
@@ -212,13 +215,14 @@
 
 
         <div class="recibo">
-            <div class="titulo-1"> <b>Recibo de pagamento de aluguel - 02/05/2019</b> </div>
+            <div class="titulo-1"> <b>Recibo de pagamento de aluguel - {{formatDate parcela.dataFinal "DD/MM/YYYY" }}</b>
+            </div>
             <div class="dados-clientes">
 
                 <div class="locatario box">
                     <div class="titulo">Locatário: </div>
-                    <div class="nome"> Fabiana Nascimento Nunes</div>
-                    <div class="endereco"> AR 14 Conjunto 09 Casa 02 - Sobradinho II - DF </div>
+                    <div class="nome"> {{ aluguel.locatario.nome }}</div>
+                    <div class="endereco"> {{ aluguel.imovel.nome }} </div>
                 </div>
 
                 <div class="contrato box">
@@ -238,13 +242,13 @@
 
                 <div class="locador box">
                     <div class="titulo">Locador:</div>
-                    <div class="nome"> Aparecida de Oliveira Miranda </div>
+                    <div class="nome"> {{ aluguel.locador.nome }} </div>
                 </div>
 
                 <div class="imovel box last">
                     <div class="titulo">Objeto da locação:</div>
                     <div class="tipo">Tipo de Imóvel: Apartamento </div>
-                    <div class="endereco"> AR 03 Conjunto 19 Casa 23 Ed. Romeu Soares - Sobradinho II - DF
+                    <div class="endereco"> {{ aluguel.imovel.nome }}
                     </div>
                 </div>
             </div>
@@ -254,10 +258,11 @@
 
                 <div class="aluguel">
                     <div class="data">
-                        Aluguel de <span> 05/10/2018 á 05/11/2018</span>
+                        Aluguel de <span>{{formatDate parcela.dataInicial "DD/MM/YYYY" }} á {{formatDate
+                            parcela.dataFinal "DD/MM/YYYY" }}</span>
                     </div>
                     <div class="valor">
-                        R$ 833,00
+                        {{ parcela.valor }}
                     </div>
                 </div>
                 <div class="clearfix"></div>
@@ -267,7 +272,7 @@
                         Desconto de pontualidade
                     </div>
                     <div class="valor">
-                        R$ 83,00
+                        {{ parcela.desconto }}
                     </div>
                 </div>
 
@@ -281,7 +286,7 @@
                 </div>
 
                 <div class="total">
-                    <stong> TOTAL:</stong> R$: 1000,00
+                    <stong> TOTAL:</stong> {{ total }}
                 </div>
 
             </div>
@@ -304,6 +309,7 @@
         <div class="clearfix"></div>
     </div>
 
+    {{/repeat}}
 
 </body>
 

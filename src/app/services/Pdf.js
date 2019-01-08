@@ -1,6 +1,15 @@
-var fs = require("fs");
 const path = require("path");
-const exphdb = require("express-handlebars").create();
+const moment = require("moment");
+const repeat = require("handlebars-helper-repeat");
+const exphdb = require("express-handlebars").create({
+    helpers: {
+        repeat,
+        formatDate: function(date, format) {
+            return moment(date).format(format);
+        }
+    }
+});
+
 var pdf = require("html-pdf");
 
 class Pdf {
@@ -13,10 +22,9 @@ class Pdf {
 
             let options = {
                 format: "A4",
-                zoom: 1,
-                width: "595px",
+                width: "400px",
                 border: {
-                    top: "0px", // default is 0, units: mm, cm, in, px
+                    top: "15px", // default is 0, units: mm, cm, in, px
                     bottom: "15px",
                     right: "15px",
                     left: "15px"
@@ -39,6 +47,7 @@ class Pdf {
                 }
             });
         } catch (e) {
+            console.log(e);
             res.status(500);
         }
     }

@@ -15,6 +15,8 @@
         "express-async-handler": "^1.1.4",
         "express-handlebars": "^3.0.0",
         "express-validation": "^1.0.2",
+        "handlebars-helper-repeat": "^2.0.0",
+        "handlebars.moment": "^1.0.4",
         "html-pdf": "^2.2.0",
         "joi": "^14.3.0",
         "jsonwebtoken": "^8.4.0",
@@ -24,6 +26,7 @@
         "mongoose-paginate": "^5.0.3",
         "nodemailer": "^4.7.0",
         "nodemailer-express-handlebars": "^3.0.0",
+        "npm": "^6.5.0",
         "numeral": "^2.0.6",
         "require-dir": "^1.2.0",
         "youch": "^2.0.10"

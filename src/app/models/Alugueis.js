@@ -38,22 +38,6 @@ const Parcelas = new mongoose.Schema(
     }
 );
 
-Parcelas.path("valor").get(function(num) {
-    return (num / 100).toFixed(2);
-});
-
-Parcelas.path("valor").set(function(num) {
-    return num * 100;
-});
-
-Parcelas.path("desconto").get(function(num) {
-    return (num / 100).toFixed(2);
-});
-
-Parcelas.path("desconto").set(function(num) {
-    return num * 100;
-});
-
 const Alugueis = new mongoose.Schema(
     {
         locatario: {
@@ -94,16 +78,6 @@ const Alugueis = new mongoose.Schema(
         timestamps: true
     }
 );
-
-// Getter
-Alugueis.path("valorLocacao").get(function(num) {
-    return (num / 100).toFixed(2);
-});
-
-// Setter
-Alugueis.path("valorLocacao").set(function(num) {
-    return num * 100;
-});
 
 Alugueis.post("validate", async function(doc) {
     const imovel = await Imoveis.findById(doc.imovel);

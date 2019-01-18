@@ -84,6 +84,25 @@ class AlugueisController {
         return res.json(aluguel);
     }
 
+    async pagamentoParcela(req, res) {
+        const result = await Alugueis.findOneAndUpdate(
+            {
+                "parcelas._id": req.body._idParcela
+            },
+            {
+                $set: {
+                    "parcelas.$.pago": true,
+                    "parcelas.$.valor": req.body.valor,
+                    "parcelas.$.desconto": req.body.desconto,
+                    "parcelas.$.observacao": req.body.observacao
+                }
+            },
+            { new: true }
+        );
+
+        return res.send(result);
+    }
+
     async recibo(req, res) {
         const aluguel = await Alugueis.findOne({
             _id: req.params.id_aluguel
@@ -95,12 +114,26 @@ class AlugueisController {
 
         // UPDATE recibo to True
         if (parcela.pago) {
+            // cria o pdf
             const context = {
                 parcela,
                 aluguel,
                 total: parcela.valor - parcela.desconto
             };
-            Pdf.create(res, context, "aluguel/recibo.hbs");
+
+            // atualiza status do recibo
+            await Alugueis.updateOne(
+                {
+                    "parcelas._id": parcela._id
+                },
+                {
+                    $set: {
+                        "parcelas.$.recibo": true
+                    }
+                }
+            );
+
+            await Pdf.create(res, context, "aluguel/recibo.hbs");
         }
     }
 

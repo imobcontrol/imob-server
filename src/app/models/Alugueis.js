@@ -2,6 +2,26 @@ const mongoose = require("mongoose");
 const mongoosePaginate = require("mongoose-paginate");
 const Imoveis = require("../models/Imoveis");
 
+const Despesas = new mongoose.Schema(
+    {
+        valor: {
+            type: Number,
+            default: 0
+        },
+        tipo: {
+            type: Number,
+            default: 0
+        },
+        motivo: {
+            type: String,
+            default: false
+        }
+    },
+    {
+        timestamps: true
+    }
+);
+
 const Parcelas = new mongoose.Schema(
     {
         valor: {
@@ -28,6 +48,15 @@ const Parcelas = new mongoose.Schema(
             type: Date,
             default: Date.now
         },
+        qtdDias: {
+            type: Number,
+            default: 0
+        },
+        despesasTotal: {
+            type: Number,
+            default: 0
+        },
+        despesas: [Despesas],
         observacao: {
             type: String,
             default: ""
@@ -66,7 +95,7 @@ const Alugueis = new mongoose.Schema(
             type: Number
         },
         diaVencimento: {
-            type: Number
+            type: Date
         },
         parcelas: [Parcelas],
         ativo: {

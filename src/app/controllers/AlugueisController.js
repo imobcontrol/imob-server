@@ -46,7 +46,7 @@ class AlugueisController {
     }
 
     async store(req, res) {
-        const { startDate, endDate } = req.body;
+        const { startDate, endDate, qtdDias } = req.body;
 
         //pega a quantidade de parcelas de definido pelas datas.
         const qtdParcelas = moment(endDate).diff(startDate, "months", true);
@@ -54,13 +54,20 @@ class AlugueisController {
         //cria array com a quantidade de parcelas definidas
         const parcelas = [];
         for (var i = 0; i < qtdParcelas; i++) {
+            const dataInicial = moment(startDate)
+                .add(i, "M")
+                .format();
+
+            const dataFinal = moment(startDate)
+                .add(i + 1, "M")
+                .format();
+
+            const qtd = i === 0 ? qtdDias : 0;
+
             parcelas.push({
-                dataInicial: moment(startDate)
-                    .add(i, "M")
-                    .format(),
-                dataFinal: moment(startDate)
-                    .add(i + 1, "M")
-                    .format()
+                dataInicial,
+                dataFinal,
+                qtdDias: qtd
             });
         }
 
@@ -85,6 +92,7 @@ class AlugueisController {
     }
 
     async pagamentoParcela(req, res) {
+        console.log(req.body);
         const result = await Alugueis.findOneAndUpdate(
             {
                 "parcelas._id": req.body._idParcela
@@ -94,7 +102,9 @@ class AlugueisController {
                     "parcelas.$.pago": true,
                     "parcelas.$.valor": req.body.valor,
                     "parcelas.$.desconto": req.body.desconto,
-                    "parcelas.$.observacao": req.body.observacao
+                    "parcelas.$.observacao": req.body.observacao,
+                    "parcelas.$.despesasTotal": req.body.despesasTotal,
+                    "parcelas.$.despesas": req.body.despesas
                 }
             },
             { new: true }

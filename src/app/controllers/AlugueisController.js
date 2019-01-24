@@ -92,7 +92,6 @@ class AlugueisController {
     }
 
     async pagamentoParcela(req, res) {
-        console.log(req.body);
         const result = await Alugueis.findOneAndUpdate(
             {
                 "parcelas._id": req.body._idParcela

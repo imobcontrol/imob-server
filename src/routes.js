@@ -77,17 +77,31 @@ routes.delete(
  * Alugueis
  */
 routes.get("/alugueis", handle(controllers.AlugueisController.index));
-routes.get("/alugueis/:id", handle(controllers.AlugueisController.show));
+
+routes.get(
+    "/aluguel/recibo/:id_aluguel/:id_parcela",
+    handle(controllers.AlugueisController.recibo)
+);
+
 routes.post(
     "/aluguel",
     validate(validators.Alugueis),
     handle(controllers.AlugueisController.store)
 );
+
+routes.put(
+    "/aluguel/parcela/:id",
+    handle(controllers.AlugueisController.pagamentoParcela)
+);
+
 routes.put(
     "/aluguel/:id",
     validate(validators.Alugueis),
     handle(controllers.AlugueisController.update)
 );
+
+routes.get("/aluguel/:id", handle(controllers.AlugueisController.show));
+
 routes.delete("/aluguel/:id", handle(controllers.AlugueisController.destroy));
 
 module.exports = routes;

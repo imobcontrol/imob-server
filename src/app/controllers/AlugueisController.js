@@ -1,5 +1,6 @@
 const moment = require("moment");
 const Alugueis = require("../models/Alugueis");
+const Pdf = require("../services/Pdf");
 
 class AlugueisController {
     async index(req, res) {
@@ -45,7 +46,7 @@ class AlugueisController {
     }
 
     async store(req, res) {
-        const { startDate, endDate } = req.body;
+        const { startDate, endDate, qtdDias } = req.body;
 
         //pega a quantidade de parcelas de definido pelas datas.
         const qtdParcelas = moment(endDate).diff(startDate, "months", true);
@@ -53,10 +54,20 @@ class AlugueisController {
         //cria array com a quantidade de parcelas definidas
         const parcelas = [];
         for (var i = 0; i < qtdParcelas; i++) {
+            const dataInicial = moment(startDate)
+                .add(i, "M")
+                .format();
+
+            const dataFinal = moment(startDate)
+                .add(i + 1, "M")
+                .format();
+
+            const qtd = i === 0 ? qtdDias : 0;
+
             parcelas.push({
-                dataVencimento: moment(startDate)
-                    .month(i)
-                    .format()
+                dataInicial,
+                dataFinal,
+                qtdDias: qtd
             });
         }
 
@@ -78,6 +89,61 @@ class AlugueisController {
         );
 
         return res.json(aluguel);
+    }
+
+    async pagamentoParcela(req, res) {
+        const result = await Alugueis.findOneAndUpdate(
+            {
+                "parcelas._id": req.body._idParcela
+            },
+            {
+                $set: {
+                    "parcelas.$.pago": true,
+                    "parcelas.$.valor": req.body.valor,
+                    "parcelas.$.desconto": req.body.desconto,
+                    "parcelas.$.observacao": req.body.observacao,
+                    "parcelas.$.despesasTotal": req.body.despesasTotal,
+                    "parcelas.$.despesas": req.body.despesas
+                }
+            },
+            { new: true }
+        );
+
+        return res.send(result);
+    }
+
+    async recibo(req, res) {
+        const aluguel = await Alugueis.findOne({
+            _id: req.params.id_aluguel
+        }).populate(["locatario", "imovel", "locador"]);
+
+        const parcela = aluguel.parcelas.find(
+            parcela => `${parcela._id}` === req.params.id_parcela
+        );
+
+        // UPDATE recibo to True
+        if (parcela.pago) {
+            // cria o pdf
+            const context = {
+                parcela,
+                aluguel,
+                total: parcela.valor - parcela.desconto
+            };
+
+            // atualiza status do recibo
+            await Alugueis.updateOne(
+                {
+                    "parcelas._id": parcela._id
+                },
+                {
+                    $set: {
+                        "parcelas.$.recibo": true
+                    }
+                }
+            );
+
+            await Pdf.create(res, context, "aluguel/recibo.hbs");
+        }
     }
 
     async destroy(req, res) {

@@ -47,7 +47,7 @@ class App {
 
     exception() {
         if (process.env.NODE_ENV === "production") {
-            this.express.use(Sentry.Handlers.errorHandler());
+            //  this.express.use(Sentry.Handlers.errorHandler());
         }
 
         this.express.use(async (err, req, res, next) => {

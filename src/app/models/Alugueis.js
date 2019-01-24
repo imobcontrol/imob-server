@@ -2,6 +2,26 @@ const mongoose = require("mongoose");
 const mongoosePaginate = require("mongoose-paginate");
 const Imoveis = require("../models/Imoveis");
 
+const Despesas = new mongoose.Schema(
+    {
+        valor: {
+            type: Number,
+            default: 0
+        },
+        tipo: {
+            type: Number,
+            default: 0
+        },
+        motivo: {
+            type: String,
+            default: false
+        }
+    },
+    {
+        timestamps: true
+    }
+);
+
 const Parcelas = new mongoose.Schema(
     {
         valor: {
@@ -20,10 +40,23 @@ const Parcelas = new mongoose.Schema(
             type: Boolean,
             default: false
         },
-        dataVencimento: {
+        dataInicial: {
             type: Date,
             default: Date.now
         },
+        dataFinal: {
+            type: Date,
+            default: Date.now
+        },
+        qtdDias: {
+            type: Number,
+            default: 0
+        },
+        despesasTotal: {
+            type: Number,
+            default: 0
+        },
+        despesas: [Despesas],
         observacao: {
             type: String,
             default: ""
@@ -33,22 +66,6 @@ const Parcelas = new mongoose.Schema(
         timestamps: true
     }
 );
-
-Parcelas.path("valor").get(function(num) {
-    return (num / 100).toFixed(2);
-});
-
-Parcelas.path("valor").set(function(num) {
-    return num * 100;
-});
-
-Parcelas.path("desconto").get(function(num) {
-    return (num / 100).toFixed(2);
-});
-
-Parcelas.path("desconto").set(function(num) {
-    return num * 100;
-});
 
 const Alugueis = new mongoose.Schema(
     {
@@ -78,7 +95,7 @@ const Alugueis = new mongoose.Schema(
             type: Number
         },
         diaVencimento: {
-            type: Number
+            type: Date
         },
         parcelas: [Parcelas],
         ativo: {
@@ -90,16 +107,6 @@ const Alugueis = new mongoose.Schema(
         timestamps: true
     }
 );
-
-// Getter
-Alugueis.path("valorLocacao").get(function(num) {
-    return (num / 100).toFixed(2);
-});
-
-// Setter
-Alugueis.path("valorLocacao").set(function(num) {
-    return num * 100;
-});
 
 Alugueis.post("validate", async function(doc) {
     const imovel = await Imoveis.findById(doc.imovel);

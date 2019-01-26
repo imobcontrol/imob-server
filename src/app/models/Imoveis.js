@@ -34,7 +34,7 @@ const Imoveis = new mongoose.Schema(
         },
         proprietario: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: "Clientes",
+            ref: "Persons",
             required: true
         },
         createdAt: {

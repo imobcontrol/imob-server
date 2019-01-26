@@ -5,12 +5,12 @@ const Comentarios = new mongoose.Schema(
     {
         user: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: "User",
+            ref: "Persons",
             required: true
         },
         cliente: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: "Clientes",
+            ref: "Persons",
             required: true
         },
         comentario: {

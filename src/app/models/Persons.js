@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const mongoosePaginate = require("mongoose-paginate");
 
-const Clientes = new mongoose.Schema(
+const Persons = new mongoose.Schema(
     {
         nome: {
             type: String,
@@ -28,10 +28,6 @@ const Clientes = new mongoose.Schema(
         },
         observacoes: {
             type: String
-        },
-        createdAt: {
-            type: Date,
-            default: Date.now
         }
     },
     {
@@ -39,6 +35,6 @@ const Clientes = new mongoose.Schema(
     }
 );
 
-Clientes.plugin(mongoosePaginate);
+Persons.plugin(mongoosePaginate);
 
-module.exports = mongoose.model("Clientes", Clientes);
+module.exports = mongoose.model("Persons", Persons);

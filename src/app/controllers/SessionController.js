@@ -1,10 +1,10 @@
-const User = require("../models/User");
+const Persons = require("../models/Persons");
 
 class SessionController {
     async store(req, res) {
         const { email, password } = req.body;
 
-        const user = await User.findOne({ email });
+        const user = await Persons.findOne({ email });
 
         if (!user) {
             return res.status(400).json({ error: "User not found" });
@@ -14,7 +14,7 @@ class SessionController {
             return res.status(400).json({ error: "Invalid password" });
         }
 
-        return res.json({ user, token: User.generateToken(user) });
+        return res.json({ user, token: Persons.generateToken(user) });
     }
 }
 

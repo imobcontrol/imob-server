@@ -1,6 +1,6 @@
-const Clientes = require("../models/Clientes");
+const Persons = require("../models/Persons");
 
-class ClientesController {
+class PersonsController {
     async index(req, res) {
         const filters = {};
 
@@ -22,30 +22,30 @@ class ClientesController {
             filters.nome = new RegExp(nome, "i");
         }
 
-        const clientes = await Clientes.paginate(filters, {
+        const persons = await Persons.paginate(filters, {
             limit: 20,
             page: req.query.page || 1,
             sort: "-createdAt"
         });
 
-        return res.json(clientes);
+        return res.json(persons);
     }
 
     async show(req, res) {
-        const clientes = await Clientes.findById(req.params.id);
-        return res.json(clientes);
+        const persons = await Persons.findById(req.params.id);
+        return res.json(persons);
     }
 
     async store(req, res) {
-        const cliente = await Clientes.create({
+        const person = await Persons.create({
             ...req.body
         });
 
-        return res.json(cliente);
+        return res.json(person);
     }
 
     async update(req, res) {
-        const cliente = await Clientes.findByIdAndUpdate(
+        const person = await Persons.findByIdAndUpdate(
             req.params.id,
             req.body,
             {
@@ -53,13 +53,13 @@ class ClientesController {
             }
         );
 
-        return res.json(cliente);
+        return res.json(person);
     }
 
     async destroy(req, res) {
-        const cliente = await Clientes.findByIdAndDelete(req.params.id);
-        return res.send(cliente);
+        const person = await Persons.findByIdAndDelete(req.params.id);
+        return res.send(person);
     }
 }
 
-module.exports = new ClientesController();
+module.exports = new PersonsController();

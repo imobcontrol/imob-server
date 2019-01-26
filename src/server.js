@@ -3,6 +3,7 @@ const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
 const Youch = require("youch");
+const forTerminal = require("youch-terminal");
 const validate = require("express-validation");
 const sentryConfig = require("./config/sentry");
 const dbConfig = require("./config/database");
@@ -42,7 +43,14 @@ class App {
     }
 
     routes() {
-        this.express.use(routes);
+        this.express.use("/sessions", routes.sessions);
+        this.express.use("/accounts", routes.accounts);
+
+        // required jwt
+        this.express.use("/imoveis", routes.imoveis);
+        this.express.use("/aluguel", routes.aluguel);
+        this.express.use("/clientes", routes.persons);
+        this.express.use("/comentarios", routes.comentarios);
     }
 
     exception() {
@@ -56,9 +64,9 @@ class App {
             }
 
             if (process.env.NODE_ENV !== "production") {
-                const youch = new Youch(err, req); // Não precisa do req se for JSON, só HTML
-
-                return res.json(await youch.toJSON());
+                const youch = await new Youch(err, req).toJSON(); // Não precisa do req se for JSON, só HTML
+                console.log(forTerminal(youch));
+                return res.json(youch);
             }
 
             return res

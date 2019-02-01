@@ -77,7 +77,7 @@ class AlugueisController {
         req.body.parcelas = parcelas;
         req.body.ativo = true;
 
-        const aluguel = await Alugueis.create({ ...req.body });
+        const aluguel = await Alugueis.create(req.body);
         return res.json(aluguel);
     }
 

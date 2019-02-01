@@ -18,9 +18,7 @@ class ComentariosController {
     }
 
     async store(req, res) {
-        const comentarios = await Comentarios.create({
-            ...req.body
-        });
+        const comentarios = await Comentarios.create(req.body);
 
         const result = await comentarios.populate("user").execPopulate();
 

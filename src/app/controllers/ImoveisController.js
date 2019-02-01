@@ -90,10 +90,7 @@ class ImoveisController {
     }
 
     async store(req, res) {
-        const imoveis = await Imoveis.create({
-            ...req.body
-        });
-
+        const imoveis = await Imoveis.create(req.body);
         return res.json(imoveis);
     }
 

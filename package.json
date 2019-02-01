@@ -4,10 +4,12 @@
     "main": "index.js",
     "license": "MPL-2.0",
     "scripts": {
-        "start": "nodemon src/index.js"
+        "start": "nodemon --exec babel-node src/index.js"
     },
     "dependencies": {
         "@sentry/node": "^4.4.0",
+        "babel-cli": "^6.26.0",
+        "babel-preset-env": "^1.7.0",
         "bcryptjs": "^2.4.3",
         "cors": "^2.8.5",
         "dotenv": "^6.1.0",
@@ -17,6 +19,7 @@
         "express-validation": "^1.0.2",
         "handlebars-helper-repeat": "^2.0.0",
         "handlebars.moment": "^1.0.4",
+        "helmet": "^3.15.0",
         "html-pdf": "^2.2.0",
         "joi": "^14.3.0",
         "jsonwebtoken": "^8.4.0",

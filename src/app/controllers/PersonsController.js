@@ -37,10 +37,7 @@ class PersonsController {
     }
 
     async store(req, res) {
-        const person = await Persons.create({
-            ...req.body
-        });
-
+        const person = await Persons.create(req.body);
         return res.json(person);
     }
 

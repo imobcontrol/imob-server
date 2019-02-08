@@ -1,4 +1,4 @@
-const Comentarios = require("../models/Comentarios");
+import Comentarios from "../models/Comentarios";
 
 class ComentariosController {
     async index(req, res) {
@@ -18,9 +18,7 @@ class ComentariosController {
     }
 
     async store(req, res) {
-        const comentarios = await Comentarios.create({
-            ...req.body
-        });
+        const comentarios = await Comentarios.create(req.body);
 
         const result = await comentarios.populate("user").execPopulate();
 
@@ -45,4 +43,4 @@ class ComentariosController {
     }
 }
 
-module.exports = new ComentariosController();
+export default new ComentariosController();

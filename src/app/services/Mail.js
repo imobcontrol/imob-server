@@ -1,8 +1,8 @@
-const nodeMailer = require("nodemailer");
-const path = require("path");
-const hbs = require("nodemailer-express-handlebars");
-const exphbs = require("express-handlebars");
-const mailConfig = require("../../config/mail");
+import nodeMailer from "nodemailer";
+import path from "path";
+import hbs from "nodemailer-express-handlebars";
+import exphbs from "express-handlebars";
+import mailConfig from "../../config/mail";
 
 const transport = nodeMailer.createTransport(mailConfig);
 
@@ -15,4 +15,4 @@ transport.use(
     })
 );
 
-module.exports = transport;
+export default transport;

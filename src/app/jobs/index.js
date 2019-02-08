@@ -1,1 +1,3 @@
-module.exports = require("require-dir")();
+import ActiveAccountMail from "./ActiveAccountMail";
+
+export { ActiveAccountMail };

@@ -1,5 +1,5 @@
-const mongoose = require("mongoose");
-const mongoosePaginate = require("mongoose-paginate");
+import mongoose from "mongoose";
+import mongoosePaginate from "mongoose-paginate";
 
 const Imoveis = new mongoose.Schema(
     {
@@ -34,7 +34,7 @@ const Imoveis = new mongoose.Schema(
         },
         proprietario: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: "Clientes",
+            ref: "Persons",
             required: true
         },
         createdAt: {
@@ -49,4 +49,4 @@ const Imoveis = new mongoose.Schema(
 
 Imoveis.plugin(mongoosePaginate);
 
-module.exports = mongoose.model("Imoveis", Imoveis);
+export default mongoose.model("Imoveis", Imoveis);

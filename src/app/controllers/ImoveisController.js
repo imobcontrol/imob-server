@@ -1,6 +1,5 @@
-const mongoose = require("mongoose");
-
-const Imoveis = require("../models/Imoveis");
+import mongoose from "mongoose";
+import Imoveis from "../models/Imoveis";
 
 class ImoveisController {
     async index(req, res) {
@@ -90,10 +89,7 @@ class ImoveisController {
     }
 
     async store(req, res) {
-        const imoveis = await Imoveis.create({
-            ...req.body
-        });
-
+        const imoveis = await Imoveis.create(req.body);
         return res.json(imoveis);
     }
 
@@ -115,4 +111,4 @@ class ImoveisController {
     }
 }
 
-module.exports = new ImoveisController();
+export default new ImoveisController();

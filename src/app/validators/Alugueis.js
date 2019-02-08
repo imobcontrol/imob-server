@@ -1,6 +1,6 @@
 const Joi = require("joi");
 
-module.exports = {
+export default {
     body: {
         locador: Joi.string(),
         imovel: Joi.string(),

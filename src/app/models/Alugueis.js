@@ -1,6 +1,6 @@
-const mongoose = require("mongoose");
-const mongoosePaginate = require("mongoose-paginate");
-const Imoveis = require("../models/Imoveis");
+import mongoose from "mongoose";
+import mongoosePaginate from "mongoose-paginate";
+import Imoveis from "../models/Imoveis";
 
 const Despesas = new mongoose.Schema(
     {
@@ -71,12 +71,12 @@ const Alugueis = new mongoose.Schema(
     {
         locatario: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: "Clientes",
+            ref: "Persons",
             required: true
         },
         locador: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: "Clientes",
+            ref: "Persons",
             required: true
         },
         imovel: {
@@ -123,4 +123,4 @@ Alugueis.post("save", async doc => {
 
 Alugueis.plugin(mongoosePaginate);
 
-module.exports = mongoose.model("Alugueis", Alugueis);
+export default mongoose.model("Alugueis", Alugueis);

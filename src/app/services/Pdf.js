@@ -1,7 +1,10 @@
-const path = require("path");
-const moment = require("moment");
-const repeat = require("handlebars-helper-repeat");
-const exphdb = require("express-handlebars").create({
+import path from "path";
+import moment from "moment";
+import repeat from "handlebars-helper-repeat";
+import expHandlebars from "express-handlebars";
+import pdf from "html-pdf";
+
+const exphdb = expHandlebars.create({
     helpers: {
         repeat,
         formatDate: function(date, format) {
@@ -9,8 +12,6 @@ const exphdb = require("express-handlebars").create({
         }
     }
 });
-
-var pdf = require("html-pdf");
 
 class Pdf {
     async create(res, context, template) {
@@ -53,4 +54,4 @@ class Pdf {
     }
 }
 
-module.exports = new Pdf();
+export default new Pdf();

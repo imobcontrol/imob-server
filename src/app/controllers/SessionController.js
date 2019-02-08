@@ -1,21 +1,24 @@
-const User = require("../models/User");
+import Accounts from "../models/Accounts";
 
 class SessionController {
     async store(req, res) {
         const { email, password } = req.body;
 
-        const user = await User.findOne({ email });
+        const account = await Accounts.findOne({ email });
 
-        if (!user) {
-            return res.status(400).json({ error: "User not found" });
+        if (!account) {
+            return res.status(400).json({ error: "Account not found" });
         }
 
-        if (!(await user.compareHash(password))) {
+        if (!(await account.compareHash(password))) {
             return res.status(400).json({ error: "Invalid password" });
         }
 
-        return res.json({ user, token: User.generateToken(user) });
+        return res.json({
+            account,
+            token: Accounts.generateToken(account)
+        });
     }
 }
 
-module.exports = new SessionController();
+export default new SessionController();

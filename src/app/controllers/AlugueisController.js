@@ -1,6 +1,6 @@
-const moment = require("moment");
-const Alugueis = require("../models/Alugueis");
-const Pdf = require("../services/Pdf");
+import moment from "moment";
+import Alugueis from "../models/Alugueis";
+import Pdf from "../services/Pdf";
 
 class AlugueisController {
     async index(req, res) {
@@ -77,7 +77,7 @@ class AlugueisController {
         req.body.parcelas = parcelas;
         req.body.ativo = true;
 
-        const aluguel = await Alugueis.create({ ...req.body });
+        const aluguel = await Alugueis.create(req.body);
         return res.json(aluguel);
     }
 
@@ -152,4 +152,4 @@ class AlugueisController {
     }
 }
 
-module.exports = new AlugueisController();
+export default new AlugueisController();

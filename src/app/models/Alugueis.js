@@ -69,6 +69,11 @@ const Parcelas = new mongoose.Schema(
 
 const Alugueis = new mongoose.Schema(
     {
+        company: {
+            type: String,
+            ref: "Companies",
+            required: true
+        },
         locatario: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "Persons",

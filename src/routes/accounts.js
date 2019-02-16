@@ -27,4 +27,10 @@ routes.get(
     handle(controllers.AccountsController.active)
 );
 
+routes.get(
+    "/resend/email/:email",
+    validate(validators.Accounts.Resend),
+    handle(controllers.AccountsController.resend)
+);
+
 module.exports = routes;

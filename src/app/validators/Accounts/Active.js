@@ -5,5 +5,10 @@ export default {
         code: Joi.string()
             .min(10)
             .required()
+            .error(errors => {
+                return {
+                    message: "Código Inválido"
+                };
+            })
     }
 };

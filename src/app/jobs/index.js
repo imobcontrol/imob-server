@@ -1,3 +1,3 @@
-import ActiveAccountMail from "./ActiveAccountMail";
+import AccountActiveMail from "./AccountActiveMail";
 
-export { ActiveAccountMail };
+export { AccountActiveMail };

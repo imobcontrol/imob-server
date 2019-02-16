@@ -41,14 +41,22 @@ AccountsSchema.pre("save", async function(next) {
 AccountsSchema.methods = {
     compareHash(password) {
         return bcrypt.compare(password, this.password);
+    },
+
+    checkStatus() {
+        return this.status === "pending" ? false : true;
     }
 };
 
 AccountsSchema.statics = {
-    generateToken({ id }) {
-        return jwt.sign({ id }, authConfig.secret, {
-            expiresIn: authConfig.ttl
-        });
+    generateToken({ account, companie }) {
+        return jwt.sign(
+            { id: account._id, companie: companie._id },
+            authConfig.secret,
+            {
+                expiresIn: authConfig.ttl
+            }
+        );
     }
 };
 

@@ -5,7 +5,7 @@ import * as jobs from "../jobs";
 
 const Queue = kue.createQueue({ redis: redisConfig });
 
-Queue.process(jobs.ActiveAccountMail.key, jobs.ActiveAccountMail.handle);
+Queue.process(jobs.AccountActiveMail.key, jobs.AccountActiveMail.handle);
 
 Queue.on("error", console.log);
 

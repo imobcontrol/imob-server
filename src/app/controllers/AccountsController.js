@@ -1,22 +1,20 @@
 import Accounts from "../models/Accounts";
-import ActiveAccountMail from "../jobs/ActiveAccountMail";
+import AccountActiveMail from "../jobs/AccountActiveMail";
 import * as controller from "./";
 import Queue from "../services/Queue";
 
 const createQueue = ({ email, code }) => {
     const account = {
         email,
-        link: `${process.env.BASE_URL}:${
-            process.env.PORT
-        }/account/active/code/${code}`
+        link: `${process.env.BASE_URL}:${process.env.PORT}/active/${code}`
     };
 
-    Queue.create(ActiveAccountMail.key, { account }).save();
+    Queue.create(AccountActiveMail.key, { account }).save();
 };
 
 const createAccount = async ({ email, password }) => {
     if (await Accounts.findOne({ email })) {
-        throw new Error("Account already exists");
+        throw new Error("Você já está registrado.");
     }
 
     let account = await Accounts.create({ email, password });
@@ -41,10 +39,26 @@ const AccountController = {
         );
 
         if (!account) {
-            return res.status(400).json({ error: "Code not found" });
+            return res
+                .status(400)
+                .json({ error: "Código não econtrado ou inválido!" });
         }
 
-        return res.status(200).json({ message: "Code actived" });
+        return res.status(200).json({ message: "Código ativado" });
+    },
+
+    resend: async (req, res) => {
+        const { email } = req.params;
+
+        const account = await Accounts.findOne({ email, status: "pending" });
+
+        if (!account) {
+            return res.status(400).json({ error: "Usuário não econtrado" });
+        }
+
+        createQueue(account);
+
+        return res.status(200).json({ message: "Email reenviado." });
     },
 
     company: async (req, res) => {

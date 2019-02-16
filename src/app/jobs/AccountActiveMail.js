@@ -1,6 +1,6 @@
 import Mail from "../services/Mail";
 
-class ActiveAccountMail {
+class AccountActiveMail {
     get key() {
         return "AccountActive";
     }
@@ -20,4 +20,4 @@ class ActiveAccountMail {
     }
 }
 
-export default new ActiveAccountMail();
+export default new AccountActiveMail();

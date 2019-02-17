@@ -17,6 +17,7 @@
         "express": "^4.16.4",
         "express-async-handler": "^1.1.4",
         "express-handlebars": "^3.0.0",
+        "express-rate-limit": "^3.3.2",
         "express-validation": "^1.0.2",
         "handlebars-helper-repeat": "^2.0.0",
         "handlebars.moment": "^1.0.4",

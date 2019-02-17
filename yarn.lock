@@ -1872,6 +1872,13 @@ express-handlebars@^3.0.0:
     object.assign "^4.0.3"
     promise "^7.0.0"
 
+express-rate-limit@^3.3.2:
+  version "3.3.2"
+  resolved "https://registry.yarnpkg.com/express-rate-limit/-/express-rate-limit-3.3.2.tgz#c5b2fc770d533878ce01a5dbbfadca340f3b8915"
+  integrity sha512-JZnnTf6ZX9ntQalCZiPHsOG9zhxyRGqfaur+WD4yIcdqzf5FJQao5dmxXbWHk093K8WRSYwNwnzkFXVYnBNudg==
+  dependencies:
+    defaults "^1.0.3"
+
 express-validation@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/express-validation/-/express-validation-1.0.2.tgz#7d589dd3b257c55b3e004665b6c69cb12cc2b142"

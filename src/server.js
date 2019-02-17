@@ -9,6 +9,7 @@ import validate from "express-validation";
 import sentryConfig from "./config/sentry";
 import dbConfig from "./config/database";
 import * as routes from "./routes/index";
+import rateLimit from "express-rate-limit";
 
 // import Sentry  from ('@sentry/node');
 
@@ -42,9 +43,19 @@ class App {
         });
     }
 
+    rateLimiter() {
+        return rateLimit({
+            windowMs: 60 * 60 * 1000, // 1 hour window
+            max: 5, // start blocking after 5 requests
+            message: {
+                error: "Limite de tentativas excedido, tente daqui 15 minutos."
+            }
+        });
+    }
+
     routes() {
-        this.express.use("/sessions", routes.sessions);
-        this.express.use("/accounts", routes.accounts);
+        this.express.use("/sessions", this.rateLimiter(), routes.sessions);
+        this.express.use("/accounts", this.rateLimiter(), routes.accounts);
 
         // required jwt
         this.express.use("/imoveis", routes.imoveis);

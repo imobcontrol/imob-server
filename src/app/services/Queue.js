@@ -7,6 +7,8 @@ const Queue = kue.createQueue({ redis: redisConfig });
 
 Queue.process(jobs.AccountActiveMail.key, jobs.AccountActiveMail.handle);
 
+Queue.process(jobs.AccountRecoveryMail.key, jobs.AccountRecoveryMail.handle);
+
 Queue.on("error", console.log);
 
 export default Queue;

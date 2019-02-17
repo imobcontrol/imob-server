@@ -9,6 +9,7 @@ const routes = express.Router();
 /**
  * Accounts
  */
+
 routes.post(
     "/",
     validate(validators.Accounts.Company),
@@ -21,6 +22,12 @@ routes.post(
     handle(controllers.AccountsController.company)
 );
 
+routes.post(
+    "/recovery/password",
+    validate(validators.Accounts.Password),
+    handle(controllers.AccountsController.changePassword)
+);
+
 routes.get(
     "/active/code/:code",
     validate(validators.Accounts.Active),
@@ -31,6 +38,12 @@ routes.get(
     "/resend/email/:email",
     validate(validators.Accounts.Resend),
     handle(controllers.AccountsController.resend)
+);
+
+routes.get(
+    "/recovery/email/:email",
+    validate(validators.Accounts.Recovery),
+    handle(controllers.AccountsController.recovery)
 );
 
 module.exports = routes;

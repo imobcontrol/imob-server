@@ -42,7 +42,6 @@ AccountsSchema.methods = {
     compareHash(password) {
         return bcrypt.compare(password, this.password);
     },
-
     checkStatus() {
         return this.status === "pending" ? false : true;
     }

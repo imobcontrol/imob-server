@@ -8,8 +8,8 @@ import forTerminal from "youch-terminal";
 import validate from "express-validation";
 import sentryConfig from "./config/sentry";
 import dbConfig from "./config/database";
-import * as routes from "./routes/index";
 import rateLimit from "express-rate-limit";
+import * as routes from "./routes/index";
 
 // import Sentry  from ('@sentry/node');
 
@@ -48,7 +48,8 @@ class App {
             windowMs: 60 * 60 * 1000, // 1 hour window
             max: 5, // start blocking after 5 requests
             message: {
-                error: "Limite de tentativas excedido, tente daqui 15 minutos."
+                error:
+                    "Limite de tentativas excedido, tente novamente em alguns minutos."
             }
         });
     }

@@ -3,6 +3,13 @@ import mongoosePaginate from "mongoose-paginate";
 
 const Persons = new mongoose.Schema(
     {
+        company: [
+            {
+                type: String,
+                ref: "Companies",
+                required: true
+            }
+        ],
         nome: {
             type: String,
             required: true

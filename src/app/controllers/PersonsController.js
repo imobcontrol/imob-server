@@ -37,6 +37,7 @@ class PersonsController {
     }
 
     async store(req, res) {
+        req.body.company = req.companyId;
         const person = await Persons.create(req.body);
         return res.json(person);
     }

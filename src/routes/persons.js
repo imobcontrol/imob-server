@@ -15,13 +15,13 @@ routes.use(authMiddleware);
 routes.get("/", handle(controllers.PersonsController.index));
 routes.get("/:id", handle(controllers.PersonsController.show));
 routes.post(
-    "",
-    validate(validators.Clientes),
+    "/",
+    validate(validators.Persons),
     handle(controllers.PersonsController.store)
 );
 routes.put(
     "/:id",
-    validate(validators.Clientes),
+    validate(validators.Persons),
     handle(controllers.PersonsController.update)
 );
 routes.delete("/:id", handle(controllers.PersonsController.destroy));

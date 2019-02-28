@@ -4,7 +4,7 @@ class PersonsController {
     async index(req, res) {
         const filters = {};
 
-        const { nome, price_min, price_max } = req.query;
+        const { nome, cpf, price_min, price_max } = req.query;
 
         if (price_min || price_max) {
             filters.price = {};
@@ -22,12 +22,21 @@ class PersonsController {
             filters.nome = new RegExp(nome, "i");
         }
 
+        if (cpf) {
+            filters.cpf = new RegExp(cpf, "i");
+        }
+
         const persons = await Persons.paginate(filters, {
             limit: 20,
             page: req.query.page || 1,
             sort: "-createdAt"
         });
 
+        return res.json(persons);
+    }
+
+    async cpf(req, res) {
+        const persons = await Persons.findOne({ cpf: req.params.cpf });
         return res.json(persons);
     }
 

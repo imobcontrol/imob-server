@@ -3,6 +3,7 @@ import Alugueis from "./Alugueis";
 import Clientes from "./Clientes";
 import Comentarios from "./Comentarios";
 import Imoveis from "./Imoveis";
+import Persons from "./Persons";
 import Purchase from "./Purchase";
 import Session from "./Session";
 
@@ -10,6 +11,7 @@ export {
     Accounts,
     Alugueis,
     Clientes,
+    Persons,
     Comentarios,
     Imoveis,
     Purchase,

@@ -5,7 +5,7 @@ const Comentarios = new mongoose.Schema(
     {
         user: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: "Persons",
+            ref: "Accounts",
             required: true
         },
         cliente: {

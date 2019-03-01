@@ -10,19 +10,23 @@ const Persons = new mongoose.Schema(
                 required: true
             }
         ],
+
         nome: {
             type: String,
             required: true
         },
+
         cpf: {
-            type: String
+            type: Number,
+            required: true
         },
-        celular: {
-            type: String
-        },
-        celular2: {
-            type: String
-        },
+
+        birthDate: Date,
+
+        phoneNumber: String,
+
+        phoneNumber2: String,
+
         pagamento: {
             forma: String,
             banco: String,
@@ -33,9 +37,14 @@ const Persons = new mongoose.Schema(
             nome: String,
             cpfCnpj: String
         },
-        observacoes: {
-            type: String
-        }
+
+        address: {
+            city: String,
+            state: String,
+            country: String
+        },
+
+        observacoes: String
     },
     {
         timestamps: true

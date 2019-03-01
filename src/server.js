@@ -63,6 +63,7 @@ class App {
         this.express.use("/aluguel", routes.aluguel);
         this.express.use("/clientes", routes.persons);
         this.express.use("/persons", routes.persons);
+        this.express.use("/score", routes.score);
         this.express.use("/comentarios", routes.comentarios);
     }
 

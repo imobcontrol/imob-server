@@ -4,6 +4,7 @@ import ComentariosController from "./ComentariosController";
 import CompaniesController from "./CompaniesController";
 import ImoveisController from "./ImoveisController";
 import PersonsController from "./PersonsController";
+import ScoreController from "./ScoreController";
 import SessionController from "./SessionController";
 
 export {
@@ -13,5 +14,6 @@ export {
     CompaniesController,
     ImoveisController,
     PersonsController,
+    ScoreController,
     SessionController
 };

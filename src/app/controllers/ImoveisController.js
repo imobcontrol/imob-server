@@ -20,7 +20,7 @@ class ImoveisController {
         }
 
         if (nome) {
-            filters.nome = new RegExp(nome, "i");
+            filters.name = new RegExp(nome, "i");
         }
 
         if (aluguel) {
@@ -56,7 +56,7 @@ class ImoveisController {
         }
 
         if (nome) {
-            filters.nome = new RegExp(nome, "i");
+            filters.name = new RegExp(nome, "i");
         }
 
         if (aluguel) {

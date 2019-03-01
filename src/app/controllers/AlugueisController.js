@@ -21,7 +21,7 @@ class AlugueisController {
         }
 
         if (nome) {
-            filters.nome = new RegExp(nome, "i");
+            filters.name = new RegExp(nome, "i");
         }
 
         const aluguel = await Alugueis.paginate(filters, {
@@ -101,7 +101,7 @@ class AlugueisController {
                     "parcelas.$.pago": true,
                     "parcelas.$.valor": req.body.valor,
                     "parcelas.$.desconto": req.body.desconto,
-                    "parcelas.$.observacao": req.body.observacao,
+                    "parcelas.$.observations": req.body.observations,
                     "parcelas.$.despesasTotal": req.body.despesasTotal,
                     "parcelas.$.despesas": req.body.despesas
                 }

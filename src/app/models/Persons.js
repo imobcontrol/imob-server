@@ -11,7 +11,7 @@ const Persons = new mongoose.Schema(
             }
         ],
 
-        nome: {
+        name: {
             type: String,
             required: true
         },
@@ -22,6 +22,8 @@ const Persons = new mongoose.Schema(
         },
 
         birthDate: Date,
+
+        email: String,
 
         phoneNumber: String,
 

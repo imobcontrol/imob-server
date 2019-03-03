@@ -23,7 +23,7 @@ const PersonsController = {
         }
 
         if (cpf) {
-            filters.cpf = new RegExp(cpf, "i");
+            filters.cpf = cpf;
         }
 
         const persons = await Persons.paginate(filters, {
@@ -42,6 +42,15 @@ const PersonsController = {
 
     store: async (req, res) => {
         req.body.company = req.companyId;
+
+        // verify exist
+        const exist = await Persons.findOne({ cpf: req.body.cpf });
+        if (exist) {
+            return res
+                .status(400)
+                .json({ error: "Cliente ou cpf já cadastrado." });
+        }
+
         const person = await Persons.create(req.body);
         return res.json(person);
     },

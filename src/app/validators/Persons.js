@@ -6,6 +6,7 @@ module.exports = {
         phoneNumber: Joi.number(),
         phoneNumber2: Joi.number(),
         cpf: Joi.number(),
+        email: Joi.string().email({ minDomainAtoms: 2 }),
         observations: Joi.string()
     }
 };

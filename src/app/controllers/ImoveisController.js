@@ -89,6 +89,7 @@ class ImoveisController {
     }
 
     async store(req, res) {
+        req.body.company = req.companyId;
         const imoveis = await Imoveis.create(req.body);
         return res.json(imoveis);
     }

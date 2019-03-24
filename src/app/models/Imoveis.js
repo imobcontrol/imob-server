@@ -4,35 +4,36 @@ import mongoosePaginate from "mongoose-paginate";
 const Imoveis = new mongoose.Schema(
     {
         company: {
-            type: String,
+            type: mongoose.Schema.Types.ObjectId,
             ref: "Companies",
             required: true
         },
-        nome: {
-            type: String,
-            required: true
+
+        informations: {
+            observations: { type: Number, default: "" },
+            type: { type: Number, default: "" },
+            category: { type: Number, default: "" },
+            goal: { type: Number, default: "" },
+            status: { type: Number, default: "" },
+            currentState: { type: Number, default: "" },
+            target: { type: Number, default: "" }
         },
-        cpf: {
-            type: String
+
+        address: {
+            lat: { type: Number, default: "" },
+            lng: { type: Number, default: "" },
+            postalCode: { type: String, default: "" },
+            street: { type: String, default: "" },
+            number: { type: String, default: "" },
+            complement: { type: String, default: "" },
+            city: { type: String, default: "" },
+            neighborhood: { type: String, default: "" },
+            state: { type: String, default: "" },
+            country: { type: String, default: "" },
+            cities: { type: String, default: "" },
+            states: { type: String, default: "" }
         },
-        celular: {
-            type: String
-        },
-        celular2: {
-            type: String
-        },
-        observacoes: {
-            type: String
-        },
-        condominio: {
-            valor: Number
-        },
-        observacoes: {
-            type: String
-        },
-        valorVenda: {
-            valor: Number
-        },
+
         aluguel: {
             type: String,
             ref: "Alugueis"

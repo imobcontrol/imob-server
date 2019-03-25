@@ -39,10 +39,7 @@ class AlugueisController {
             "locatario"
         ]);
 
-        //TODO: Remover em produção
-        setTimeout(() => {
-            return res.json(aluguel);
-        }, 2000);
+        return res.json(aluguel);
     }
 
     async store(req, res) {

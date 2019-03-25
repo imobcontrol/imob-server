@@ -1,4 +1,5 @@
 import "dotenv/config";
+import path from "path";
 import express from "express";
 import helmet from "helmet";
 import cors from "cors";
@@ -33,6 +34,10 @@ class App {
         this.express.use(helmet());
         this.express.use(cors());
         this.express.use(express.json());
+        this.express.use(
+            "/images",
+            express.static(path.resolve(__dirname, "..", "tmp", "uploads"))
+        );
         // this.express.use(Sentry.Handlers.errorHandler());
     }
 

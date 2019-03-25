@@ -1,7 +1,7 @@
 import * as Accounts from "./Accounts";
 import Alugueis from "./Alugueis";
 import Clientes from "./Clientes";
-import Comentarios from "./Comentarios";
+import Observations from "./Observations";
 import Imoveis from "./Imoveis";
 import Persons from "./Persons";
 import Score from "./Score";
@@ -14,7 +14,7 @@ export {
     Clientes,
     Persons,
     Score,
-    Comentarios,
+    Observations,
     Imoveis,
     Purchase,
     Session

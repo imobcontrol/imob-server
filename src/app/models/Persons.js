@@ -4,8 +4,14 @@ import mongoosePaginate from "mongoose-paginate";
 const Persons = new mongoose.Schema(
     {
         company: {
-            type: String,
+            type: mongoose.Schema.Types.ObjectId,
             ref: "Companies",
+            required: true
+        },
+
+        account: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Accounts",
             required: true
         },
 

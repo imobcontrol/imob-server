@@ -2,16 +2,16 @@ import mongoose from "mongoose";
 
 const CompaniesSchema = new mongoose.Schema(
     {
-        nome: {
+        name: {
             type: String,
             required: true,
             lowercase: true
         },
-        telefone: {
+        phoneNumber: {
             type: String,
             required: true
         },
-        estado: {
+        state: {
             type: String,
             required: true
         },

@@ -12,14 +12,13 @@ import dbConfig from "./config/database";
 import rateLimit from "express-rate-limit";
 import * as routes from "./routes/index";
 
-// import Sentry  from ('@sentry/node');
-
+const Sentry = require("@sentry/node");
 class App {
     constructor() {
         this.express = express();
         this.isDev = process.env.NODE_ENV = !"production";
 
-        // this.sentry();
+        this.sentry();
         this.middlewares();
         this.database();
         this.routes();
@@ -34,11 +33,11 @@ class App {
         this.express.use(helmet());
         this.express.use(cors());
         this.express.use(express.json());
+        this.express.use(Sentry.Handlers.errorHandler());
         this.express.use(
             "/images",
             express.static(path.resolve(__dirname, "..", "tmp", "uploads"))
         );
-        // this.express.use(Sentry.Handlers.errorHandler());
     }
 
     database() {
@@ -66,15 +65,18 @@ class App {
         // required jwt
         this.express.use("/imoveis", routes.imoveis);
         this.express.use("/aluguel", routes.aluguel);
+        this.express.use("/score", routes.score);
+
         this.express.use("/clientes", routes.persons);
         this.express.use("/persons", routes.persons);
-        this.express.use("/score", routes.score);
-        this.express.use("/comentarios", routes.comentarios);
+
+        this.express.use("/comentarios", routes.observations);
+        this.express.use("/observations", routes.observations);
     }
 
     exception() {
         if (process.env.NODE_ENV === "production") {
-            //  this.express.use(Sentry.Handlers.errorHandler());
+            this.express.use(Sentry.Handlers.errorHandler());
         }
 
         this.express.use(async (err, req, res, next) => {

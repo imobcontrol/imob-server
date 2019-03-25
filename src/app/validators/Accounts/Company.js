@@ -2,9 +2,9 @@ const Joi = require("joi");
 
 export default {
     body: {
-        nome: Joi.string().required(),
-        telefone: Joi.string().required(),
-        estado: Joi.string().required(),
+        name: Joi.string().required(),
+        phoneNumber: Joi.string().required(),
+        state: Joi.string().required(),
         email: Joi.string()
             .email()
             .required(),

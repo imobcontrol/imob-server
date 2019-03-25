@@ -1,6 +1,6 @@
 import AccountsController from "./AccountsController";
 import AlugueisController from "./AlugueisController";
-import ComentariosController from "./ComentariosController";
+import ObservationsController from "./ObservationsController";
 import CompaniesController from "./CompaniesController";
 import ImoveisController from "./ImoveisController";
 import PersonsController from "./PersonsController";
@@ -10,7 +10,7 @@ import SessionController from "./SessionController";
 export {
     AccountsController,
     AlugueisController,
-    ComentariosController,
+    ObservationsController,
     CompaniesController,
     ImoveisController,
     PersonsController,

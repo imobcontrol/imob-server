@@ -33,7 +33,18 @@ const Imoveis = new mongoose.Schema(
             cities: { type: String, default: "" },
             states: { type: String, default: "" }
         },
-
+        images: [
+            {
+                name: { type: String, default: "" },
+                size: { type: String, default: "" },
+                key: { type: String, default: "" },
+                url: { type: String, default: "" },
+                createdAt: {
+                    type: Date,
+                    default: Date.now
+                }
+            }
+        ],
         aluguel: {
             type: String,
             ref: "Alugueis"

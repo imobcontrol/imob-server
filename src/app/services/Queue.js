@@ -1,9 +1,9 @@
 import kue from "kue";
 // import Sentry from "@sentry/node";
-import redisConfig from "../../config/redis";
+import { uri } from "../../config/redis";
 import * as jobs from "../jobs";
 
-const Queue = kue.createQueue({ redis: redisConfig });
+const Queue = kue.createQueue({ redis: uri });
 
 Queue.process(jobs.AccountActiveMail.key, jobs.AccountActiveMail.handle);
 

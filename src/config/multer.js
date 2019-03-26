@@ -20,16 +20,14 @@ const storageTypes = {
         }
     }),
     s3: multerS3({
-        s3: new aws.S3(),
+        s3: new aws.S3({ ACL: "public-read" }),
         bucket: process.env.BUCKET_NAME,
         contentType: multerS3.AUTO_CONTENT_TYPE,
         acl: "public-read",
         key: (req, file, cb) => {
             crypto.randomBytes(16, (err, hash) => {
                 if (err) cb(err);
-
                 const fileName = `${hash.toString("hex")}-${file.originalname}`;
-
                 cb(null, fileName);
             });
         }

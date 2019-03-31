@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 import Imoveis from "../models/Imoveis";
 import path from "path";
 import fs from "fs";
+import AWS from "aws-sdk";
 
 class ImoveisController {
     async index(req, res) {
@@ -99,6 +100,15 @@ class ImoveisController {
 
     async images(req, res) {
         const { originalname: name, size, key, location: url = "" } = req.file;
+
+        const lambda = new AWS.Lambda();
+        await lambda
+            .invoke({
+                FunctionName: "resizeImage-dev-hello", // the lambda function we are going to invoke
+                InvocationType: "RequestResponse",
+                Payload: JSON.stringify({ key })
+            })
+            .promise();
 
         const imoveis = await Imoveis.findByIdAndUpdate(
             req.params.id,

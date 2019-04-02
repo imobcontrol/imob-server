@@ -1,29 +1,9 @@
 import Accounts from "../models/Accounts";
-import AccountActiveMail from "../jobs/AccountActiveMail";
-import AccountRecoveryMail from "../jobs/AccountRecoveryMail";
 import bcrypt from "bcryptjs";
-const uuidv4 = require("uuid/v4");
+import uuidv4 from "uuid/v4";
+import Mail from "../services/Mail";
 
 import * as controller from "./";
-import Queue from "../services/Queue";
-
-const createQueue = ({ email, code }) => {
-    const account = {
-        email,
-        link: `${process.env.CLIENT_URL}/account/active/${code}`
-    };
-
-    Queue.create(AccountActiveMail.key, { account }).save();
-};
-
-const recoveryQueue = ({ email, code }) => {
-    const account = {
-        email,
-        link: `${process.env.CLIENT_URL}/account/recovery/${code}`
-    };
-
-    Queue.create(AccountRecoveryMail.key, { account }).save();
-};
 
 const createAccount = async ({ email, password }) => {
     if (await Accounts.findOne({ email })) {
@@ -31,12 +11,21 @@ const createAccount = async ({ email, password }) => {
     }
 
     let account = await Accounts.create({ email, password });
-    createQueue(account);
 
     account = account.toObject();
 
+    const link = `${process.env.CLIENT_URL}/account/active/${account.code}`;
+
     delete account.password;
     delete account.code;
+
+    await Mail.sendMail({
+        from: '"Imob" <imob@gmail.com>',
+        to: email,
+        subject: `Ativação da sua nova conta Imob`,
+        template: "activeAccount",
+        context: { account: { email, link } }
+    });
 
     return account;
 };
@@ -69,7 +58,17 @@ const AccountController = {
             return res.status(400).json({ error: "Cadastro não econtrado" });
         }
 
-        createQueue(account);
+        account.link = `${process.env.CLIENT_URL}/account/active/${
+            account.code
+        }`;
+
+        await Mail.sendMail({
+            from: '"Imob" <imob@gmail.com>',
+            to: account.email,
+            subject: `Ativação da sua nova conta Imob`,
+            template: "activeAccount",
+            context: { account }
+        });
 
         return res.status(200).json({ message: "Email reenviado." });
     },
@@ -77,9 +76,11 @@ const AccountController = {
     recovery: async (req, res) => {
         const { email } = req.params;
 
+        const code = uuidv4();
+
         const account = await Accounts.findOneAndUpdate(
             { email },
-            { $set: { code: uuidv4() } },
+            { $set: { code } },
             { new: true }
         );
 
@@ -87,7 +88,15 @@ const AccountController = {
             return res.status(400).json({ error: "Cadastro não econtrado" });
         }
 
-        recoveryQueue(account);
+        const link = `${process.env.CLIENT_URL}/account/recovery/${code}`;
+
+        await Mail.sendMail({
+            from: '"Imob" <imob@gmail.com>',
+            to: email,
+            subject: `Recuperação de senha - Imob`,
+            template: "recoveryAccount",
+            context: { account: { email, link } }
+        });
 
         return res
             .status(200)

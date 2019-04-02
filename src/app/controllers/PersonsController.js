@@ -42,6 +42,7 @@ const PersonsController = {
 
     store: async (req, res) => {
         req.body.company = req.companyId;
+        req.body.account = req.accountId;
 
         // verify exist
         const exist = await Persons.findOne({ cpf: req.body.cpf });

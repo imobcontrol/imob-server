@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 import Imoveis from "../models/Imoveis";
 import path from "path";
 import fs from "fs";
+import AWS from "aws-sdk";
 
 class ImoveisController {
     async index(req, res) {
@@ -92,12 +93,22 @@ class ImoveisController {
 
     async store(req, res) {
         req.body.company = req.companyId;
+        req.body.account = req.accountId;
         const imoveis = await Imoveis.create(req.body);
         return res.json(imoveis);
     }
 
-    async images(req, res) {
+    async saveImage(req, res) {
         const { originalname: name, size, key, location: url = "" } = req.file;
+
+        const lambda = new AWS.Lambda();
+        await lambda
+            .invoke({
+                FunctionName: "resizeImage-dev-hello", // the lambda function we are going to invoke
+                InvocationType: "RequestResponse",
+                Payload: JSON.stringify({ key })
+            })
+            .promise();
 
         const imoveis = await Imoveis.findByIdAndUpdate(
             req.params.id,
@@ -106,8 +117,7 @@ class ImoveisController {
                     images: {
                         name,
                         size,
-                        key,
-                        url: `${process.env.APP_URL}/images/${key}`
+                        key
                     }
                 }
             },
@@ -117,6 +127,30 @@ class ImoveisController {
         );
 
         return res.json(imoveis);
+    }
+
+    async selectedImage(req, res) {
+        const { image } = req.body;
+        const imovel = await Imoveis.findById(req.params.id).lean();
+
+        const images = imovel.images.map(img => {
+            if (img._id.toString() === image) {
+                img.selected = true;
+            } else {
+                img.selected = false;
+            }
+            return img;
+        });
+
+        console.log(images);
+
+        const result = await Imoveis.update(
+            { _id: req.params.id },
+            { images },
+            { new: true, upsert: true }
+        );
+
+        return res.json(result);
     }
 
     async deleteImage(req, res) {
@@ -135,20 +169,46 @@ class ImoveisController {
         }
 
         if (process.env.STORAGE_TYPE === "s3") {
-            return s3
+            const s3 = new AWS.S3({ httpOptions: { timeout: 2000 } });
+            await s3
                 .deleteObject({
                     Bucket: process.env.BUCKET_NAME,
-                    Key: image.key
+                    Key: "original/" + image.key
                 })
-                .promise()
-                .then(response => {
-                    console.log(response.status);
-                    return res.status(200);
+                .promise();
+
+            await s3
+                .deleteObject({
+                    Bucket: process.env.BUCKET_NAME,
+                    Key: "large/" + image.key
                 })
-                .catch(response => {
-                    console.log(response.status);
-                    return res.status(400).json({ error: response });
-                });
+                .promise();
+
+            await s3
+                .deleteObject({
+                    Bucket: process.env.BUCKET_NAME,
+                    Key: "medium/" + image.key
+                })
+                .promise();
+
+            await s3
+                .deleteObject({
+                    Bucket: process.env.BUCKET_NAME,
+                    Key: "thumbnail/" + image.key
+                })
+                .promise();
+
+            const images = imovel.images.filter(
+                image => image._id.toString() !== req.params.id
+            );
+
+            const result = await Imoveis.update(
+                { _id: imovel._id },
+                { images },
+                { new: true, upsert: true }
+            );
+
+            return res.status(200).json(result);
         } else {
             fs.unlink(
                 path.resolve(

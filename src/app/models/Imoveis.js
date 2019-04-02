@@ -9,6 +9,12 @@ const Imoveis = new mongoose.Schema(
             required: true
         },
 
+        account: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Accounts",
+            required: true
+        },
+
         informations: {
             observations: { type: Number, default: "" },
             type: { type: Number, default: "" },
@@ -29,16 +35,14 @@ const Imoveis = new mongoose.Schema(
             city: { type: String, default: "" },
             neighborhood: { type: String, default: "" },
             state: { type: String, default: "" },
-            country: { type: String, default: "" },
-            cities: { type: String, default: "" },
-            states: { type: String, default: "" }
+            country: { type: String, default: "" }
         },
         images: [
             {
                 name: { type: String, default: "" },
                 size: { type: String, default: "" },
                 key: { type: String, default: "" },
-                url: { type: String, default: "" },
+                selected: { type: Boolean, default: false },
                 createdAt: {
                     type: Date,
                     default: Date.now

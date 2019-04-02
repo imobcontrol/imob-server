@@ -12,18 +12,18 @@ routes.use(authMiddleware);
 /**
  * Comentarios
  */
-routes.get("/:id", handle(controllers.ComentariosController.index));
-routes.get("/:id", handle(controllers.ComentariosController.show));
+routes.get("/:id", handle(controllers.ObservationsController.index));
+routes.get("/:id", handle(controllers.ObservationsController.show));
 routes.post(
     "/",
-    validate(validators.Comentarios),
-    handle(controllers.ComentariosController.store)
+    validate(validators.Observations),
+    handle(controllers.ObservationsController.store)
 );
 routes.put(
     "/:id",
-    validate(validators.Comentarios),
-    handle(controllers.ComentariosController.update)
+    validate(validators.Observations),
+    handle(controllers.ObservationsController.update)
 );
-routes.delete("/:id", handle(controllers.ComentariosController.destroy));
+routes.delete("/:id", handle(controllers.ObservationsController.destroy));
 
 module.exports = routes;

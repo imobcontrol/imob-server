@@ -2,9 +2,15 @@ import nodeMailer from "nodemailer";
 import path from "path";
 import hbs from "nodemailer-express-handlebars";
 import exphbs from "express-handlebars";
-import mailConfig from "../../config/mail";
+import sgTransport from "nodemailer-sendgrid-transport";
 
-const transport = nodeMailer.createTransport(mailConfig);
+const options = {
+    auth: {
+        api_key: process.env.SENDGRID_API_KEY
+    }
+};
+
+const transport = nodeMailer.createTransport(sgTransport(options));
 
 transport.use(
     "compile",

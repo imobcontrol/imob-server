@@ -18,9 +18,13 @@ routes.get("/list/:id", handle(controllers.ImoveisController.index));
 routes.get("/list", handle(controllers.ImoveisController.list));
 routes.get("/:id", handle(controllers.ImoveisController.show));
 routes.post(
+    "/image/selected/:id",
+    handle(controllers.ImoveisController.selectedImage)
+);
+routes.post(
     "/image/:id",
     multer(multerConfig).single("file"),
-    handle(controllers.ImoveisController.images)
+    handle(controllers.ImoveisController.saveImage)
 );
 routes.post(
     "/",

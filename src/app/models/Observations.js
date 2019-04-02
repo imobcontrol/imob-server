@@ -3,7 +3,7 @@ import mongoosePaginate from "mongoose-paginate";
 
 const Comentarios = new mongoose.Schema(
     {
-        user: {
+        account: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "Accounts",
             required: true
@@ -25,4 +25,4 @@ const Comentarios = new mongoose.Schema(
 
 Comentarios.plugin(mongoosePaginate);
 
-module.exports = mongoose.model("Comentarios", Comentarios);
+module.exports = mongoose.model("Observations", Comentarios);

@@ -43,6 +43,7 @@ class AlugueisController {
     }
 
     async store(req, res) {
+        req.body.company = req.companyId;
         const { startDate, endDate, qtdDias } = req.body;
 
         //pega a quantidade de parcelas de definido pelas datas.

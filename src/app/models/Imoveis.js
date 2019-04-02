@@ -42,7 +42,7 @@ const Imoveis = new mongoose.Schema(
                 name: { type: String, default: "" },
                 size: { type: String, default: "" },
                 key: { type: String, default: "" },
-                url: { type: String, default: "" },
+                selected: { type: Boolean, default: false },
                 createdAt: {
                     type: Date,
                     default: Date.now

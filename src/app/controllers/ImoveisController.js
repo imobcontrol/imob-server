@@ -102,13 +102,15 @@ class ImoveisController {
         const { originalname: name, size, key, location: url = "" } = req.file;
 
         const lambda = new AWS.Lambda();
-        await lambda
+        const result = await lambda
             .invoke({
                 FunctionName: "resizeImage-dev-hello", // the lambda function we are going to invoke
                 InvocationType: "RequestResponse",
                 Payload: JSON.stringify({ key })
             })
             .promise();
+
+        console.log(result);
 
         const imoveis = await Imoveis.findByIdAndUpdate(
             req.params.id,

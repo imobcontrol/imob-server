@@ -102,15 +102,17 @@ class ImoveisController {
         const { originalname: name, size, key, location: url = "" } = req.file;
 
         const lambda = new AWS.Lambda();
-        const result = await lambda
+        await lambda
             .invoke({
-                FunctionName: "resizeImage-dev-hello", // the lambda function we are going to invoke
+                FunctionName: "resize-images-imovel-dev-hello", // the lambda function we are going to invoke
                 InvocationType: "RequestResponse",
-                Payload: JSON.stringify({ key })
+                Payload: JSON.stringify({
+                    key: key.split("/")[3],
+                    imovelId: req.params.id,
+                    companyId: req.companyId
+                })
             })
             .promise();
-
-        console.log(result);
 
         const imoveis = await Imoveis.findByIdAndUpdate(
             req.params.id,
@@ -119,7 +121,7 @@ class ImoveisController {
                     images: {
                         name,
                         size,
-                        key
+                        key: key.split("/")[3]
                     }
                 }
             },

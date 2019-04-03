@@ -20,14 +20,19 @@ const storageTypes = {
     }),
     s3: multerS3({
         s3: new aws.S3({ ACL: "public-read" }),
-        bucket: process.env.BUCKET_NAME + "/original",
+        bucket: process.env.BUCKET_NAME,
         contentType: multerS3.AUTO_CONTENT_TYPE,
         acl: "public-read",
         key: (req, file, cb) => {
-            console.log(file);
+            const companyId = req.companyId;
+            const imovelId = req.params.id;
+
             crypto.randomBytes(16, (err, hash) => {
                 if (err) cb(err);
-                const fileName = `${hash.toString("hex")}-${file.originalname}`;
+                const ext = file.originalname.split(".").pop();
+                const fileName = `${companyId}/${imovelId}/original/${hash.toString(
+                    "hex"
+                )}.${ext}`;
                 cb(null, fileName);
             });
         }
@@ -38,12 +43,12 @@ module.exports = {
     dest: path.resolve(__dirname, "..", "..", "tmp", "uploads"),
     storage: storageTypes[process.env.STORAGE_TYPE],
     limits: {
-        fileSize: 2 * 1024 * 1024
+        fileSize: 5 * 1024 * 1024
     },
     fileFilter: (req, file, cb) => {
         const allowedMimes = [
             "image/jpeg",
-            "image/pjpeg",
+            "image/jpg",
             "image/png",
             "image/gif"
         ];

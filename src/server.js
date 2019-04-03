@@ -39,7 +39,7 @@ class App {
             express.static(path.resolve(__dirname, "..", "tmp", "uploads"))
         );
 
-        this.express.use.use(function(req, res, next) {
+        this.express.use(function(req, res, next) {
             res.header("Access-Control-Allow-Origin", "*");
             res.header(
                 "Access-Control-Allow-Methods",

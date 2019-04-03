@@ -10,7 +10,10 @@ const ScoreController = {
         let score = await Score.findOne({ cpf: req.body.cpf });
         if (!score) {
             score = await Score.create(req.body);
+        } else {
+            return res.status(400).json({ error: "Score já cadastrado" });
         }
+
         return res.json(score);
     },
 

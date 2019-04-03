@@ -49,8 +49,8 @@ class App {
 
     rateLimiter() {
         return rateLimit({
-            windowMs: 60 * 60 * 1000, // 1 hour window
-            max: 5, // start blocking after 5 requests
+            windowMs: 5 * 60 * 1000, // 1 hour window
+            max: 10, // start blocking after 5 requests
             message: {
                 error:
                     "Limite de tentativas excedido, tente novamente em alguns minutos."

@@ -68,6 +68,11 @@ const PersonsController = {
         return res.json(person);
     },
 
+    getByCpf: async (req, res) => {
+        const person = await Persons.findOne({ cpf: req.params.cpf });
+        return res.json(person);
+    },
+
     destroy: async (req, res) => {
         const person = await Persons.findByIdAndDelete(req.params.id);
         return res.send(person);

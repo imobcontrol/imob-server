@@ -24,6 +24,8 @@ routes.put(
     validate(validators.Persons),
     handle(controllers.PersonsController.update)
 );
+routes.get("/cpf/:cpf", handle(controllers.PersonsController.getByCpf));
+
 routes.delete("/:id", handle(controllers.PersonsController.destroy));
 
 module.exports = routes;

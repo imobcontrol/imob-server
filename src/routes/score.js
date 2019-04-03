@@ -18,4 +18,10 @@ routes.get(
     handle(controllers.ScoreController.index)
 );
 
+routes.post(
+    "/",
+    validate(validators.Score.params),
+    handle(controllers.ScoreController.store)
+);
+
 module.exports = routes;

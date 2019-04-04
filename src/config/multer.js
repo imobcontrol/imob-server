@@ -13,7 +13,6 @@ const storageTypes = {
             crypto.randomBytes(16, (err, hash) => {
                 if (err) cb(err);
                 file.key = `${hash.toString("hex")}-${file.originalname}`;
-                console.log();
                 cb(null, file.key);
             });
         }
@@ -24,7 +23,6 @@ const storageTypes = {
         contentType: multerS3.AUTO_CONTENT_TYPE,
         acl: "public-read",
         key: (req, file, cb) => {
-            console.log(file);
             crypto.randomBytes(16, (err, hash) => {
                 if (err) cb(err);
                 const fileName = `${hash.toString("hex")}-${file.originalname}`;

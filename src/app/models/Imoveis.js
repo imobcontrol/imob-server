@@ -8,13 +8,11 @@ const Imoveis = new mongoose.Schema(
             ref: "Companies",
             required: true
         },
-
         account: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "Accounts",
             required: true
         },
-
         informations: {
             observations: { type: Number, default: "" },
             type: { type: Number, default: "" },
@@ -24,7 +22,11 @@ const Imoveis = new mongoose.Schema(
             currentState: { type: Number, default: "" },
             target: { type: Number, default: "" }
         },
-
+        fiscal: {
+            iptu: {
+                number: { type: Number, default: "" }
+            }
+        },
         address: {
             lat: { type: Number, default: "" },
             lng: { type: Number, default: "" },

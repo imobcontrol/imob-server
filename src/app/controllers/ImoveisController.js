@@ -110,8 +110,6 @@ class ImoveisController {
             })
             .promise();
 
-        console.log(result);
-
         const imoveis = await Imoveis.findByIdAndUpdate(
             req.params.id,
             {
@@ -143,8 +141,6 @@ class ImoveisController {
             }
             return img;
         });
-
-        console.log(images);
 
         const result = await Imoveis.update(
             { _id: req.params.id },

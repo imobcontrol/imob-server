@@ -9,7 +9,7 @@ import uuidv1 from "uuid/v1";
 const s3 = new AWS.S3();
 
 const exphdb = expHandlebars.create({
-    partialsDir: path.resolve(__dirname, "..", "views", template),
+    partialsDir: path.resolve(__dirname, "..", "views"),
     helpers: {
         repeat,
         formatDate: function(date, format) {

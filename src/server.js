@@ -35,8 +35,8 @@ class App {
         this.express.use(express.json());
         this.express.use(Sentry.Handlers.errorHandler());
         this.express.use(
-            "/images",
-            express.static(path.resolve(__dirname, "..", "tmp", "uploads"))
+            "/pdf",
+            express.static(path.resolve(__dirname, "..", "pdf"))
         );
     }
 

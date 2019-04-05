@@ -30,6 +30,7 @@ class Pdf {
             let options = {
                 format: "A4",
                 width: "400px",
+                type: "pdf", // allowed file types: png, jpeg, pdf
                 border: {
                     top: "15px", // default is 0, units: mm, cm, in, px
                     bottom: "15px",
@@ -46,6 +47,14 @@ class Pdf {
             // }
 
             res.setHeader("Content-type", "application/pdf");
+
+            pdf.create(html, options).toFile(
+                path.resolve(__dirname, "..", "..", "..", "pdf", "teste.pdf"),
+                function(err, res) {
+                    if (err) return console.log(err);
+                    console.log(res); // { filename: '/app/businesscard.pdf' }
+                }
+            );
 
             pdf.create("<h1> oieee </h1>", options).toStream(function(
                 err,

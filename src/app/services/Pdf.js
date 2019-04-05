@@ -35,6 +35,10 @@ class Pdf {
                 phantomArgs: "--ignore-ssl-errors=yes"
             };
 
+            if (process.env.NODE_ENV === "production") {
+                options.phantomPath = "./phantomjs_linux-x86_64";
+            }
+
             res.setHeader("Content-type", "application/pdf");
 
             pdf.create(html, options).toStream(function(err, stream) {

@@ -209,6 +209,13 @@ anymatch@^2.0.0:
     micromatch "^3.1.4"
     normalize-path "^2.1.1"
 
+api2pdf@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/api2pdf/-/api2pdf-1.1.0.tgz#2305eca9244ef5c298fc17992b27aab80cf32733"
+  integrity sha512-tumxPTz7L0sA52Y1ixKJwZXfPfnVGfzHyiE/LxWut7lV0l8ibWh8/rg/YKXjWFh2uaDC3NfLh96J8PF7L0YTOg==
+  dependencies:
+    request "^2.88.0"
+
 "apparatus@>= 0.0.9":
   version "0.0.10"
   resolved "https://registry.yarnpkg.com/apparatus/-/apparatus-0.0.10.tgz#81ea756772ada77863db54ceee8202c109bdca3e"

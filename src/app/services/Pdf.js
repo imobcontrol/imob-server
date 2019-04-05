@@ -2,12 +2,7 @@ import path from "path";
 import moment from "moment";
 import repeat from "handlebars-helper-repeat";
 import expHandlebars from "express-handlebars";
-import pdf from "html-pdf";
-import AWS from "aws-sdk";
-import uuidv1 from "uuid/v1";
 import Puppeteer from "puppeteer";
-
-const s3 = new AWS.S3();
 
 const exphdb = expHandlebars.create({
     helpers: {
@@ -31,7 +26,10 @@ class Pdf {
             // }
             res.setHeader("Content-Type", "application/pdf");
 
-            const browser = await Puppeteer.launch();
+            const browser = await Puppeteer.launch({
+                args: ["--no-sandbox"],
+                headless: true
+            });
             const page = await browser.newPage();
             await page.setContent(html);
 

@@ -8,6 +8,7 @@
     },
     "dependencies": {
         "@sentry/node": "^4.6.5",
+        "api2pdf": "^1.1.0",
         "aws-sdk": "^2.427.0",
         "babel-cli": "^6.26.0",
         "babel-plugin-dotenv": "^0.1.1",

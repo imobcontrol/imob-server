@@ -16,6 +16,10 @@ transport.use(
     "compile",
     hbs({
         viewEngine: exphbs(),
+        partialsDir: [
+            //  path to your partials
+            path.resolve(__dirname, "..", "views", "emails")
+        ],
         viewPath: path.resolve(__dirname, "..", "views", "emails"),
         extName: ".hbs"
     })

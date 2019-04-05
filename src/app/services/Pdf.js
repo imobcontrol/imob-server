@@ -45,25 +45,17 @@ class Pdf {
             //     options.phantomPath = "./phantomjs_linux-x86_64";
             // }
 
-            console.log(html);
+            res.setHeader("Content-type", "application/pdf");
 
-            pdf.create(html, options).toStream(async (err, stream) => {
-                if (err) return console.log(err);
-                const uuid = uuidv1();
-                await s3
-                    .putObject({
-                        Body: stream,
-                        ACL: "public-read",
-                        ContentType: "application/pdf",
-                        Bucket: `imob-pdf/${companyId}`,
-                        Key: uuid + ".pdf"
-                    })
-                    .promise();
-                return res.status(200).json({
-                    url: `${
-                        process.env.S3_URl
-                    }/imob-pdf/${companyId}/${uuid}.pdf`
-                });
+            pdf.create(html, options).toStream(function(err, stream) {
+                if (!err) {
+                    stream.pipe(res).on("finish", function() {
+                        // finished
+                        res.status(200);
+                    });
+                } else {
+                    res.status(500).send(err);
+                }
             });
         } catch (e) {
             console.log(e);

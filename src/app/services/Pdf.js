@@ -20,10 +20,10 @@ const exphdb = expHandlebars.create({
 class Pdf {
     async create(res, companyId, context, template) {
         try {
-            const html = await exphdb.render(
-                path.resolve(__dirname, "..", "views", template),
-                context
-            );
+            // const html = await exphdb.render(
+            //     path.resolve(__dirname, "..", "views", template),
+            //     context
+            // );
 
             let options = {
                 format: "A4",
@@ -43,24 +43,26 @@ class Pdf {
                 options.phantomPath = "./phantomjs_linux-x86_64";
             }
 
-            pdf.create(html, options).toStream(async (err, stream) => {
-                if (err) return console.log(err);
-                const uuid = uuidv1();
-                await s3
-                    .putObject({
-                        Body: stream,
-                        ACL: "public-read",
-                        ContentType: "application/pdf",
-                        Bucket: `imob-pdf/${companyId}`,
-                        Key: uuid + ".pdf"
-                    })
-                    .promise();
-                return res.status(200).json({
-                    url: `${
-                        process.env.S3_URl
-                    }/imob-pdf/${companyId}/${uuid}.pdf`
-                });
-            });
+            pdf.create("<h1> oieee</h1>", options).toStream(
+                async (err, stream) => {
+                    if (err) return console.log(err);
+                    const uuid = uuidv1();
+                    await s3
+                        .putObject({
+                            Body: stream,
+                            ACL: "public-read",
+                            ContentType: "application/pdf",
+                            Bucket: `imob-pdf/${companyId}`,
+                            Key: uuid + ".pdf"
+                        })
+                        .promise();
+                    return res.status(200).json({
+                        url: `${
+                            process.env.S3_URl
+                        }/imob-pdf/${companyId}/${uuid}.pdf`
+                    });
+                }
+            );
         } catch (e) {
             console.log(e);
             res.status(500).send();

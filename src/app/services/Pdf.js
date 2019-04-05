@@ -20,10 +20,11 @@ const exphdb = expHandlebars.create({
 class Pdf {
     async create(res, companyId, context, template) {
         try {
-            // const html = await exphdb.render(
-            //     path.resolve(__dirname, "..", "views", template),
-            //     context
-            // );
+            console.log(path.resolve(__dirname, "..", "views", template));
+            const html = await exphdb.render(
+                path.resolve(__dirname, "..", "views", template),
+                context
+            );
 
             let options = {
                 format: "A4",
@@ -43,7 +44,7 @@ class Pdf {
                 options.phantomPath = "./phantomjs_linux-x86_64";
             }
 
-            pdf.create("<h1> oieee</h1>", options).toStream(
+            pdf.create("<h1>oieee</h1>", options).toStream(
                 async (err, stream) => {
                     if (err) return console.log(err);
                     const uuid = uuidv1();

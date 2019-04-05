@@ -3,6 +3,10 @@ import moment from "moment";
 import repeat from "handlebars-helper-repeat";
 import expHandlebars from "express-handlebars";
 import pdf from "html-pdf";
+import AWS from "aws-sdk";
+import uuidv1 from "uuid/v1";
+
+const s3 = new AWS.S3();
 
 const exphdb = expHandlebars.create({
     helpers: {
@@ -14,7 +18,7 @@ const exphdb = expHandlebars.create({
 });
 
 class Pdf {
-    async create(res, context, template) {
+    async create(res, companyId, context, template) {
         try {
             const html = await exphdb.render(
                 path.resolve(__dirname, "..", "views", template),
@@ -39,21 +43,27 @@ class Pdf {
                 options.phantomPath = "./phantomjs_linux-x86_64";
             }
 
-            res.setHeader("Content-type", "application/pdf");
-
-            pdf.create(html, options).toStream(function(err, stream) {
-                if (!err) {
-                    stream.pipe(res).on("finish", function() {
-                        // finished
-                        res.status(200);
-                    });
-                } else {
-                    res.status(500).send(err);
-                }
+            pdf.create(html, options).toStream(async (err, stream) => {
+                if (err) return console.log(err);
+                const uuid = uuidv1();
+                await s3
+                    .putObject({
+                        Body: stream,
+                        ACL: "public-read",
+                        ContentType: "application/pdf",
+                        Bucket: `imob-pdf/${companyId}`,
+                        Key: uuid + ".pdf"
+                    })
+                    .promise();
+                return res.status(200).json({
+                    url: `${
+                        process.env.S3_URl
+                    }/imob-pdf/${companyId}/${uuid}.pdf`
+                });
             });
         } catch (e) {
             console.log(e);
-            res.status(500);
+            res.status(500).send();
         }
     }
 }

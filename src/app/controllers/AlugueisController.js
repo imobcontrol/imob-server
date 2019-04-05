@@ -140,7 +140,7 @@ class AlugueisController {
                 }
             );
 
-            await Pdf.create(res, context, "aluguel/recibo.hbs");
+            await Pdf.create(res, req.companyId, context, "aluguel/recibo.hbs");
         }
     }
 

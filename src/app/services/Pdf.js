@@ -5,6 +5,7 @@ import expHandlebars from "express-handlebars";
 import pdf from "html-pdf";
 import AWS from "aws-sdk";
 import uuidv1 from "uuid/v1";
+import Puppeteer from "puppeteer";
 
 const s3 = new AWS.S3();
 
@@ -25,42 +26,16 @@ class Pdf {
                 context
             );
 
-            let options = {
-                format: "A4",
-                width: "400px",
-                border: {
-                    top: "15px", // default is 0, units: mm, cm, in, px
-                    bottom: "15px",
-                    right: "15px",
-                    left: "15px"
-                },
-                timeout: 10000,
-                renderDelay: 1000,
-                phantomArgs: "--ignore-ssl-errors=yes"
-            };
-
             // if (process.env.NODE_ENV === "production") {
             //     options.phantomPath = "./phantomjs_linux-x86_64";
             // }
+            res.setHeader("Content-Type", "application/pdf");
 
-            pdf.create(html, options).toStream(async (err, stream) => {
-                if (err) return console.log(err);
-                const uuid = uuidv1();
-                await s3
-                    .putObject({
-                        Body: stream,
-                        ACL: "public-read",
-                        ContentType: "application/pdf",
-                        Bucket: `imob-pdf/${companyId}`,
-                        Key: uuid + ".pdf"
-                    })
-                    .promise();
-                return res.status(200).json({
-                    url: `${
-                        process.env.S3_URl
-                    }/imob-pdf/${companyId}/${uuid}.pdf`
-                });
-            });
+            const browser = await Puppeteer.launch();
+            const page = await browser.newPage();
+            await page.setContent(html);
+
+            return page.pdf();
         } catch (e) {
             console.log(e);
             res.status(500).send();

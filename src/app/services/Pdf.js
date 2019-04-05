@@ -47,7 +47,10 @@ class Pdf {
 
             res.setHeader("Content-type", "application/pdf");
 
-            pdf.create(html, options).toStream(function(err, stream) {
+            pdf.create("<h1> oieee </h1>", options).toStream(function(
+                err,
+                stream
+            ) {
                 if (!err) {
                     stream.pipe(res).on("finish", function() {
                         // finished

@@ -167,7 +167,7 @@ class ImoveisController {
         }
 
         if (process.env.STORAGE_TYPE === "s3") {
-            const s3 = new AWS.S3({ httpOptions: { timeout: 2000 } });
+            const s3 = new AWS.S3({ httpOptions: { timeout: 10000 } });
             await s3
                 .deleteObject({
                     Bucket: process.env.BUCKET_NAME,

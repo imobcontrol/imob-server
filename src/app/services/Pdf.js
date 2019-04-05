@@ -12,7 +12,7 @@ class Pdf {
     async create(res, companyId, context, template) {
         try {
             const exphdb = expHandlebars.create({
-                partialsDir: path.resolve(__dirname, "..", "views", template),
+                partialsDir: path.resolve(__dirname, "..", "views", "partials"),
                 helpers: {
                     repeat,
                     formatDate: function(date, format) {

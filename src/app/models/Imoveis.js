@@ -13,7 +13,7 @@ const Imoveis = new mongoose.Schema(
             ref: "Accounts",
             required: true
         },
-        informations: {
+        description: {
             observations: { type: Number, default: "" },
             type: { type: Number, default: "" },
             category: { type: Number, default: "" },

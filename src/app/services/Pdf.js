@@ -8,19 +8,19 @@ import uuidv1 from "uuid/v1";
 
 const s3 = new AWS.S3();
 
-const exphdb = expHandlebars.create({
-    partialsDir: path.resolve(__dirname, "..", "views"),
-    helpers: {
-        repeat,
-        formatDate: function(date, format) {
-            return moment(date).format(format);
-        }
-    }
-});
-
 class Pdf {
     async create(res, companyId, context, template) {
         try {
+            const exphdb = expHandlebars.create({
+                partialsDir: path.resolve(__dirname, "..", "views", template),
+                helpers: {
+                    repeat,
+                    formatDate: function(date, format) {
+                        return moment(date).format(format);
+                    }
+                }
+            });
+
             console.log(path.resolve(__dirname, "..", "views", template));
             const html = await exphdb.render(
                 path.resolve(__dirname, "..", "views", template),
@@ -44,6 +44,8 @@ class Pdf {
             if (process.env.NODE_ENV === "production") {
                 options.phantomPath = "./phantomjs_linux-x86_64";
             }
+
+            console.log(html);
 
             pdf.create(html, options).toStream(async (err, stream) => {
                 if (err) return console.log(err);

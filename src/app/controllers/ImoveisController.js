@@ -104,7 +104,7 @@ class ImoveisController {
         const lambda = new AWS.Lambda();
         const result = await lambda
             .invoke({
-                FunctionName: "resizeImage-dev-hello", // the lambda function we are going to invoke
+                FunctionName: "resize-images-imovel-dev-hello", // the lambda function we are going to invoke
                 InvocationType: "RequestResponse",
                 Payload: JSON.stringify({ key })
             })

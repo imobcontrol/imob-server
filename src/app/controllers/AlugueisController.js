@@ -146,8 +146,8 @@ class AlugueisController {
                 context,
                 "aluguel/recibo.hbs"
             );
-            console.log(response);
-            return res.send(response);
+            //  console.log(response);
+            // return res.send(response);
         }
     }
 

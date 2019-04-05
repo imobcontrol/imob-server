@@ -38,7 +38,6 @@
         "nodemon": "^1.18.10",
         "npm": "^6.5.0",
         "numeral": "^2.0.6",
-        "phantomjs-prebuilt": "^2.1.16",
         "require-dir": "^1.2.0",
         "uuid": "^3.3.2",
         "youch": "^2.0.10",

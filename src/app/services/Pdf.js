@@ -39,9 +39,9 @@ class Pdf {
                 phantomArgs: "--ignore-ssl-errors=yes"
             };
 
-            if (process.env.NODE_ENV === "production") {
-                options.phantomPath = "./phantomjs_linux-x86_64";
-            }
+            // if (process.env.NODE_ENV === "production") {
+            //     options.phantomPath = "./phantomjs_linux-x86_64";
+            // }
 
             pdf.create(html, options).toStream(async (err, stream) => {
                 if (err) return console.log(err);

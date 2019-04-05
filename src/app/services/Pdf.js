@@ -41,9 +41,9 @@ class Pdf {
                 phantomArgs: "--ignore-ssl-errors=yes"
             };
 
-            if (process.env.NODE_ENV === "production") {
-                options.phantomPath = "./phantomjs_linux-x86_64";
-            }
+            // if (process.env.NODE_ENV === "production") {
+            //     options.phantomPath = "./phantomjs_linux-x86_64";
+            // }
 
             console.log(html);
 

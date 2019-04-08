@@ -14,7 +14,7 @@ const Imoveis = new mongoose.Schema(
             required: true
         },
         description: {
-            observations: { type: Number, default: "" },
+            observations: { type: String, default: "" },
             type: { type: Number, default: "" },
             category: { type: Number, default: "" },
             goal: { type: Number, default: "" },
@@ -60,6 +60,7 @@ const Imoveis = new mongoose.Schema(
             ref: "Persons",
             required: true
         },
+
         createdAt: {
             type: Date,
             default: Date.now

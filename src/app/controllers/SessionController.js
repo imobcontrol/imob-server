@@ -1,4 +1,5 @@
 import Accounts from "../models/Accounts";
+import Persons from "../models/Persons";
 import Companies from "../models/Companies";
 
 class SessionController {
@@ -34,6 +35,13 @@ class SessionController {
             account,
             token: Accounts.generateToken({ account, companie })
         });
+    }
+
+    async loggedUser(req, res) {
+        const account = await Persons.findOne({
+            account: req.accountId
+        }).populate("account");
+        return res.json(account);
     }
 }
 

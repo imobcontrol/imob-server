@@ -1,16 +1,19 @@
 import Accounts from "../models/Accounts";
+import Persons from "../models/Persons";
 import bcrypt from "bcryptjs";
 import uuidv4 from "uuid/v4";
 import Mail from "../services/Mail";
 
 import * as controller from "./";
 
-const createAccount = async ({ email, password }) => {
+const createAccount = async ({ body }) => {
+    const { email } = body;
+
     if (await Accounts.findOne({ email })) {
         throw new Error("Você já está registrado.");
     }
 
-    let account = await Accounts.create({ email, password });
+    let account = await Accounts.create(body);
 
     account = account.toObject();
 
@@ -119,12 +122,38 @@ const AccountController = {
         return res.status(200).json({ message: "Senha alterada com sucesso." });
     },
 
+    user: async (req, res) => {
+        const { name, phoneNumber } = req.body;
+
+        try {
+            // create account
+            const account = await createAccount({ body: req.body });
+
+            // add user in company
+            const company = await controller.CompaniesController.addUser({
+                companyId: req.companyId,
+                accountId: account._id
+            });
+
+            // create person
+            const person = await Persons.create({
+                name,
+                phoneNumber,
+                company: req.companyId,
+                account: account._id
+            });
+
+            //create company
+            return res.status(200).json({ person, account, company });
+        } catch (err) {
+            return res.status(400).json({ error: err.message });
+        }
+    },
+
     company: async (req, res) => {
         try {
-            const { email, password } = req.body;
-
             // create account
-            const account = await createAccount({ email, password });
+            const account = await createAccount({ body: req.body });
 
             // admin of company
             req.body.admin = account._id;
@@ -132,6 +161,14 @@ const AccountController = {
 
             //create company
             const company = await controller.CompaniesController.store(req);
+
+            // create person
+            await Persons.create({
+                name: "Administrador",
+                phoneNumber: "6199999999",
+                company: req.companyId,
+                account: account._id
+            });
 
             return res.status(200).json(company);
         } catch (err) {

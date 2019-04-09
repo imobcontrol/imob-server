@@ -5,14 +5,12 @@ const Persons = new mongoose.Schema(
     {
         company: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: "Companies",
-            required: true
+            ref: "Companies"
         },
 
         account: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: "Accounts",
-            required: true
+            ref: "Accounts"
         },
 
         name: {
@@ -21,8 +19,7 @@ const Persons = new mongoose.Schema(
         },
 
         cpf: {
-            type: Number,
-            required: true
+            type: Number
         },
 
         birthDate: Date,

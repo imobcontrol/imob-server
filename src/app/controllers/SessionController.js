@@ -3,45 +3,52 @@ import Persons from "../models/Persons";
 import Companies from "../models/Companies";
 
 class SessionController {
-    async store(req, res) {
-        const { email, password } = req.body;
+    async login(req, res) {
+        try {
+            const { email, password } = req.body;
 
-        const account = await Accounts.findOne({ email });
+            const account = await Accounts.findOne({ email });
 
-        // not found
-        if (!account) {
-            return res
-                .status(400)
-                .json({ error: "Seu cadastro não foi encontrado." });
-        }
+            // not found
+            if (!account) {
+                throw new Error("Seu cadastro não foi encontrado.");
+            }
 
-        // password
-        if (!(await account.compareHash(password))) {
-            return res
-                .status(400)
-                .json({ error: "Usuário ou senha inválida." });
-        }
+            // password
+            if (!(await account.compareHash(password))) {
+                throw new Error("Usuário ou senha inválida.");
+            }
 
-        // status
-        if (!account.checkStatus()) {
-            return res.status(400).json({
-                error: "Sua conta não foi verificada, visualize seu email."
+            // status
+            if (!account.checkStatus()) {
+                throw new Error(
+                    "Sua conta não foi verificada, visualize seu email."
+                );
+            }
+
+            const company = await Companies.findOne({
+                accounts: account._id
             });
+
+            return res.status(200).json({
+                account,
+                token: Accounts.generateToken({ account, company })
+            });
+        } catch (err) {
+            return res.status(400).json({ error: err.message });
         }
-
-        const companie = await Companies.findOne({ accounts: [account._id] });
-
-        return res.json({
-            account,
-            token: Accounts.generateToken({ account, companie })
-        });
     }
 
     async loggedUser(req, res) {
-        const account = await Persons.findOne({
-            account: req.accountId
-        }).populate("account");
-        return res.json(account);
+        try {
+            const account = await Persons.findOne({
+                account: req.accountId
+            }).populate("account");
+
+            return res.status(200).json(account);
+        } catch (err) {
+            return res.status(400).json({ error: err.message });
+        }
     }
 }
 

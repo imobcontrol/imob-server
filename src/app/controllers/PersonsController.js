@@ -26,6 +26,8 @@ const PersonsController = {
             filters.cpf = cpf;
         }
 
+        filters.account = null;
+
         const persons = await Persons.paginate(filters, {
             limit: 20,
             page: req.query.page || 1,
@@ -42,7 +44,6 @@ const PersonsController = {
 
     store: async (req, res) => {
         req.body.company = req.companyId;
-        req.body.account = req.accountId;
 
         // verify exist
         const exist = await Persons.findOne({ cpf: req.body.cpf });

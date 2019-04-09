@@ -48,9 +48,9 @@ AccountsSchema.methods = {
 };
 
 AccountsSchema.statics = {
-    generateToken({ account, companie }) {
+    generateToken({ account, company }) {
         return jwt.sign(
-            { accountId: account._id, companyId: companie._id },
+            { accountId: account._id, companyId: company._id },
             authConfig.secret,
             {
                 expiresIn: authConfig.ttl

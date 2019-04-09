@@ -59,8 +59,8 @@ class App {
     }
 
     routes() {
-        this.express.use("/accounts", this.rateLimiter(), routes.accounts);
-        this.express.use("/sessions", this.rateLimiter(), routes.sessions);
+        this.express.use("/accounts", routes.accounts);
+        this.express.use("/sessions", routes.sessions);
 
         // required jwt
         this.express.use("/imoveis", routes.imoveis);

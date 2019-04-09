@@ -13,7 +13,7 @@ const routes = express.Router();
 routes.post(
     "/",
     validate(validators.Session),
-    handle(controllers.SessionController.store)
+    handle(controllers.SessionController.login)
 );
 
 routes.use(authMiddleware);

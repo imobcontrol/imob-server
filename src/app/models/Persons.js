@@ -19,7 +19,7 @@ const Persons = new mongoose.Schema(
         },
 
         cpf: {
-            type: Number
+            type: String
         },
 
         birthDate: Date,

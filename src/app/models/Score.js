@@ -8,7 +8,7 @@ const Score = new mongoose.Schema(
         },
 
         cpf: {
-            type: Number,
+            type: String,
             required: true
         },
 

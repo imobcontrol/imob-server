@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import Imoveis from "../models/Imoveis";
+import Iptu from "../services/Iptu";
 import path from "path";
 import fs from "fs";
 import AWS from "aws-sdk";
@@ -242,6 +243,11 @@ class ImoveisController {
                 }
             );
         }
+    }
+
+    async iptu(req, res) {
+        const response = await Iptu(req.params.inscricao);
+        return res.json(response);
     }
 
     async update(req, res) {

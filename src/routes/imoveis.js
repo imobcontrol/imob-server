@@ -17,6 +17,8 @@ routes.use(authMiddleware);
 routes.get("/list/:id", handle(controllers.ImoveisController.index));
 routes.get("/list", handle(controllers.ImoveisController.list));
 routes.get("/:id", handle(controllers.ImoveisController.show));
+routes.get("/iptu/:inscricao", handle(controllers.ImoveisController.iptu));
+
 routes.post(
     "/image/selected/:id",
     handle(controllers.ImoveisController.selectedImage)

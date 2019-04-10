@@ -24,7 +24,13 @@ const Imoveis = new mongoose.Schema(
         },
         fiscal: {
             iptu: {
-                number: { type: Number, default: "" }
+                number: { type: String, default: "" }
+            },
+            agua: {
+                number: { type: String, default: "" }
+            },
+            energia: {
+                number: { type: String, default: "" }
             }
         },
         address: {

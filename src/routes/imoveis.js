@@ -18,6 +18,7 @@ routes.get("/list/:id", handle(controllers.ImoveisController.index));
 routes.get("/list", handle(controllers.ImoveisController.list));
 routes.get("/:id", handle(controllers.ImoveisController.show));
 routes.get("/iptu/:inscricao", handle(controllers.ImoveisController.iptu));
+routes.get("/caesb/:inscricao", handle(controllers.ImoveisController.caesb));
 
 routes.post(
     "/image/selected/:id",

@@ -12,6 +12,8 @@ import dbConfig from "./config/database";
 import rateLimit from "express-rate-limit";
 import * as routes from "./routes/index";
 
+import Caesb from "./app/services/Caesb";
+
 const Sentry = require("@sentry/node");
 class App {
     constructor() {

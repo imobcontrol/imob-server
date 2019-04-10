@@ -1,9 +1,11 @@
 import mongoose from "mongoose";
-import Imoveis from "../models/Imoveis";
-import Iptu from "../services/Iptu";
 import path from "path";
 import fs from "fs";
 import AWS from "aws-sdk";
+
+import Imoveis from "../models/Imoveis";
+import Iptu from "../services/Iptu";
+import Caesb from "../services/Caesb";
 
 class ImoveisController {
     async index(req, res) {
@@ -247,6 +249,11 @@ class ImoveisController {
 
     async iptu(req, res) {
         const response = await Iptu(req.params.inscricao);
+        return res.json(response);
+    }
+
+    async caesb(req, res) {
+        const response = await Caesb(req.params.inscricao);
         return res.json(response);
     }
 

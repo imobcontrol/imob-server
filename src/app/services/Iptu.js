@@ -12,15 +12,15 @@ export default async function get(inscricao) {
         }
     });
 
-    let $ = cheerio.load(result);
+    let $ = await cheerio.load(result);
 
     // Detalhes
-    const detalhes = $(".conteudoarea tbody")
+    const detalhes = await $(".conteudoarea tbody")
         .first()
         .html();
 
     // Parcelas
-    const parcelas = $(".conteudoarea")
+    const parcelas = await $(".conteudoarea")
         .eq(1)
         .find("tbody")
         .html();

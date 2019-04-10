@@ -70,6 +70,8 @@ class ImoveisController {
             filters.aluguel = { $exists: aluguel };
         }
 
+        filters.company = req.companyId;
+
         const imoveis = await Imoveis.paginate(filters, {
             limit: 20,
             populate: "proprietario",

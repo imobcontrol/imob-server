@@ -10,11 +10,11 @@ export default async function get(inscricao) {
         }
     });
 
-    let $ = cheerio.load(result);
+    let $ = await cheerio.load(result);
 
-    const parcelas = $(".form-horizontal")
+    const parcelas = await $(".form-horizontal")
         .children()
         .html();
 
-    return { parcelas };
+    return { parcelas, result };
 }

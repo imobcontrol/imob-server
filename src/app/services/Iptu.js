@@ -25,5 +25,5 @@ export default async function get(inscricao) {
         .find("tbody")
         .html();
 
-    return { detalhes, parcelas };
+    return { detalhes, parcelas, result };
 }
